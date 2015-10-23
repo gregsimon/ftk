@@ -14,8 +14,10 @@
 	limitations under the License.
 */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include <Adb.h>
+#include "Adb.h"
 
 // #define DEBUG
 
@@ -23,7 +25,7 @@
 
 static usb_device * adbDevice;
 static Connection * firstConnection;
-static boolean connected;
+static bool connected;
 static int connectionLocalId = 1;
 
 // Event handler callback function.
@@ -91,7 +93,7 @@ void ADB::fireEvent(Connection * connection, adb_eventType type, uint16_t length
  * @param handler event handler.
  * @return an ADB connection record or NULL on failure (not enough slots or connection string too long).
  */
-Connection * ADB::addConnection(const char * connectionString, boolean reconnect, adb_eventHandler * handler)
+Connection * ADB::addConnection(const char * connectionString, bool reconnect, adb_eventHandler * handler)
 {
 
 	// Allocate a new ADB connection object
@@ -133,25 +135,25 @@ static void adb_printMessage(adb_message * message)
 	switch(message->command)
 	{
 	case A_OKAY:
-		serialPrintf("OKAY message [%lx] %ld %ld\n", message->command, message->arg0, message->arg1);
+		printf("OKAY message [%04x] %d %d\n", message->command, message->arg0, message->arg1);
 		break;
 	case A_CLSE:
-		serialPrintf("CLSE message [%lx] %ld %ld\n", message->command, message->arg0, message->arg1);
+		printf("CLSE message [%04x] %d %d\n", message->command, message->arg0, message->arg1);
 		break;
 	case A_WRTE:
-		serialPrintf("WRTE message [%lx] %ld %ld, %ld bytes\n", message->command, message->arg0, message->arg1, message->data_length);
+		printf("WRTE message [%04x] %d %d, %d bytes\n", message->command, message->arg0, message->arg1, message->data_length);
 		break;
 	case A_CNXN:
-		serialPrintf("CNXN message [%lx] %ld %ld\n", message->command, message->arg0, message->arg1);
+		printf("CNXN message [%04x] %d %d\n", message->command, message->arg0, message->arg1);
 		break;
 	case A_SYNC:
-		serialPrintf("SYNC message [%lx] %ld %ld\n", message->command, message->arg0, message->arg1);
+		printf("SYNC message [%04x] %d %d\n", message->command, message->arg0, message->arg1);
 		break;
 	case A_OPEN:
-		serialPrintf("OPEN message [%lx] %ld %ld\n", message->command, message->arg0, message->arg1);
+		printf("OPEN message [%04x] %d %d\n", message->command, message->arg0, message->arg1);
 		break;
 	default:
-		serialPrintf("WTF message [%lx] %ld %ld\n", message->command, message->arg0, message->arg1);
+		printf("WTF message [%04x] %d %d\n", message->command, message->arg0, message->arg1);
 		break;
 	}
 }
@@ -178,7 +180,7 @@ int ADB::writeEmptyMessage(usb_device * device, uint32_t command, uint32_t arg0,
 	message.magic = command ^ 0xffffffff;
 
 #ifdef DEBUG
-	serialPrint("OUT << "); adb_printMessage(&message);
+	printf("OUT << "); adb_printMessage(&message);
 #endif
 
 	return USB::bulkWrite(device, sizeof(adb_message), (uint8_t*)&message);
@@ -216,7 +218,7 @@ int ADB::writeMessage(usb_device * device, uint32_t command, uint32_t arg0, uint
 	message.magic = command ^ 0xffffffff;
 
 #ifdef DEBUG
-	serialPrint("OUT << "); adb_printMessage(&message);
+	printf("OUT << "); adb_printMessage(&message);
 #endif
 
 	rcode = USB::bulkWrite(device, sizeof(adb_message), (uint8_t*)&message);
@@ -247,7 +249,7 @@ int ADB::writeStringMessage(usb_device * device, uint32_t command, uint32_t arg0
  * @param poll true to poll for a packet on the input endpoint, false to wait for a packet. Use false here when a packet is expected (i.e. OKAY in response to WRTE)
  * @return true iff a packet was successfully received, false otherwise.
  */
-boolean ADB::pollMessage(adb_message * message, boolean poll)
+bool ADB::pollMessage(adb_message * message, bool poll)
 {
 	int bytesRead;
 	uint8_t buf[ADB_USB_PACKETSIZE];
@@ -265,7 +267,7 @@ boolean ADB::pollMessage(adb_message * message, boolean poll)
 	if (message->magic != (message->command ^ 0xffffffff))
 	{
 #ifdef DEBUG
-		serialPrintf("Broken message, magic mismatch, %d bytes\n", bytesRead);
+		printf("Broken message, magic mismatch, %d bytes\n", bytesRead);
 		return false;
 #endif
 	}
@@ -490,7 +492,7 @@ void ADB::poll()
  * Helper function for usb_isAdbDevice to check whether an interface is a valid ADB interface.
  * @param interface interface descriptor struct.
  */
-boolean ADB::isAdbInterface(usb_interfaceDescriptor * interface)
+bool ADB::isAdbInterface(usb_interfaceDescriptor * interface)
 {
 
 	// Check if the interface has exactly two endpoints.
@@ -511,9 +513,9 @@ boolean ADB::isAdbInterface(usb_interfaceDescriptor * interface)
  * @param handle pointer to a configuration record. The endpoint device address, configuration, and endpoint information will be stored here.
  * @return true iff the device is an ADB device.
  */
-boolean ADB::isAdbDevice(usb_device * device, int configuration, adb_usbConfiguration * handle)
+bool ADB::isAdbDevice(usb_device * device, int configuration, adb_usbConfiguration * handle)
 {
-	boolean ret = false;
+	bool ret = false;
 	uint8_t buf[MAX_BUF_SIZE];
 	int bytesRead;
 

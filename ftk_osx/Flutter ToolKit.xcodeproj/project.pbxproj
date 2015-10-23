@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		78321A131BB9E7B900EECAA5 /* Adb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78321A0E1BB9E7B900EECAA5 /* Adb.cpp */; settings = {ASSET_TAGS = (); }; };
 		78FA1E381BB3487C00A5F627 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 78FA1E371BB3487C00A5F627 /* AppDelegate.m */; };
 		78FA1E3B1BB3487C00A5F627 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 78FA1E3A1BB3487C00A5F627 /* main.m */; };
 		78FA1E3E1BB3487C00A5F627 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 78FA1E3D1BB3487C00A5F627 /* Document.m */; };
@@ -21,6 +22,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		78321A0B1BB9DBFB00EECAA5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 78FA1E691BB4772700A5F627 /* ScintillaFramework.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = Scintilla;
+		};
 		78FA1E4D1BB3487D00A5F627 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78FA1E2B1BB3487C00A5F627 /* Project object */;
@@ -38,6 +46,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		78321A0E1BB9E7B900EECAA5 /* Adb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Adb.cpp; path = ../../adb/Adb.cpp; sourceTree = "<group>"; };
+		78321A0F1BB9E7B900EECAA5 /* Adb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Adb.h; path = ../../adb/Adb.h; sourceTree = "<group>"; };
+		78321A101BB9E7B900EECAA5 /* ch9.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ch9.h; path = ../../adb/ch9.h; sourceTree = "<group>"; };
+		78321A121BB9E7B900EECAA5 /* usb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = usb.h; path = ../../adb/usb.h; sourceTree = "<group>"; };
 		78FA1E331BB3487C00A5F627 /* Flutter ToolKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flutter ToolKit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		78FA1E361BB3487C00A5F627 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		78FA1E371BB3487C00A5F627 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -88,6 +100,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		78321A081BB9DBFB00EECAA5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				78321A0C1BB9DBFB00EECAA5 /* Scintilla.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		78321A0D1BB9E79E00EECAA5 /* adb */ = {
+			isa = PBXGroup;
+			children = (
+				78321A0E1BB9E7B900EECAA5 /* Adb.cpp */,
+				78321A0F1BB9E7B900EECAA5 /* Adb.h */,
+				78321A101BB9E7B900EECAA5 /* ch9.h */,
+				78321A121BB9E7B900EECAA5 /* usb.h */,
+			);
+			name = adb;
+			sourceTree = "<group>";
+		};
 		78FA1E2A1BB3487C00A5F627 = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +185,7 @@
 		78FA1E761BB4781F00A5F627 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				78321A0D1BB9E79E00EECAA5 /* adb */,
 				78FA1E701BB4780C00A5F627 /* CoreText.framework */,
 				78FA1E711BB4780C00A5F627 /* IOKit.framework */,
 				78FA1E721BB4780C00A5F627 /* WebKit.framework */,
@@ -251,6 +283,12 @@
 			mainGroup = 78FA1E2A1BB3487C00A5F627;
 			productRefGroup = 78FA1E341BB3487C00A5F627 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 78321A081BB9DBFB00EECAA5 /* Products */;
+					ProjectRef = 78FA1E691BB4772700A5F627 /* ScintillaFramework.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				78FA1E321BB3487C00A5F627 /* Flutter ToolKit */,
@@ -259,6 +297,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		78321A0C1BB9DBFB00EECAA5 /* Scintilla.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Scintilla.framework;
+			remoteRef = 78321A0B1BB9DBFB00EECAA5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		78FA1E311BB3487C00A5F627 /* Resources */ = {
@@ -295,6 +343,7 @@
 				78FA1E3E1BB3487C00A5F627 /* Document.m in Sources */,
 				78FA1E3B1BB3487C00A5F627 /* main.m in Sources */,
 				78FA1E381BB3487C00A5F627 /* AppDelegate.m in Sources */,
+				78321A131BB9E7B900EECAA5 /* Adb.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

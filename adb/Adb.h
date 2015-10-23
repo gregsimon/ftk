@@ -17,9 +17,9 @@
 #ifndef __adb_h__
 #define __adb_h__
 
-#include "wiring.h"
-#include <usb.h>
-#include <ch9.h>
+//#include "wiring.h"
+#include "usb.h"
+#include "ch9.h"
 
 typedef void(usb_eventHandler)(usb_device * device, usb_eventType event);
 
@@ -104,7 +104,7 @@ public:
 	uint32_t lastConnectionAttempt;
 	uint16_t dataSize, dataRead;
 	ConnectionStatus status;
-	boolean reconnect;
+	bool reconnect;
 	adb_eventHandler * eventHandler;
 	Connection * next;
 
@@ -121,24 +121,24 @@ private:
 	static int writeEmptyMessage(usb_device * device, uint32_t command, uint32_t arg0, uint32_t arg1);
 	static int writeMessage(usb_device * device, uint32_t command, uint32_t arg0, uint32_t arg1, uint32_t length, uint8_t * data);
 	static int writeStringMessage(usb_device * device, uint32_t command, uint32_t arg0, uint32_t arg1, char * str);
-	static boolean pollMessage(adb_message * message, boolean poll);
+	static bool pollMessage(adb_message * message, bool poll);
 	static void openClosedConnections();
 	static void handleOkay(Connection * connection, adb_message * message);
 	static void handleClose(Connection * connection);
 	static void handleWrite(Connection * connection, adb_message * message);
 	static void handleConnect(adb_message * message);
-	static boolean isAdbInterface(usb_interfaceDescriptor * interface);
+	static bool isAdbInterface(usb_interfaceDescriptor * interface);
 
 public:
 	static void init();
 	static void poll();
 
 	static void setEventHandler(adb_eventHandler * handler);
-	static Connection * addConnection(const char * connectionString, boolean reconnect, adb_eventHandler * eventHandler);
+	static Connection * addConnection(const char * connectionString, bool reconnect, adb_eventHandler * eventHandler);
 	static int write(Connection * connection, uint16_t length, uint8_t * data);
 	static int writeString(Connection * connection, char * str);
 
-	static boolean isAdbDevice(usb_device * device, int configuration, adb_usbConfiguration * handle);
+	static bool isAdbDevice(usb_device * device, int configuration, adb_usbConfiguration * handle);
 	static void initUsb(usb_device * device, adb_usbConfiguration * handle);
 	static void closeAll();
 };
