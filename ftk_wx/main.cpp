@@ -17,6 +17,8 @@
 #include "wx/wx.h"
 #endif
 
+#include "ftk_platform.h"
+
 // -----------------------------------------------------------------------
 
 
@@ -62,6 +64,8 @@ wxIMPLEMENT_APP(FTKApp);
 bool FTKApp::OnInit()
 {
 	wxLog::SetActiveTarget(new wxLogStderr());
+
+	FTK_Platform_Init();
 
 	FTKFrame *frame = new FTKFrame("Flutter ToolKit", wxPoint(50, 50), wxSize(1024, 768));
 	frame->Show(true);
