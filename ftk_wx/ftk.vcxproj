@@ -106,13 +106,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../wxWidgets-3.0.2/include;../wxWidgets-3.0.2/include/msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../third_party/wxWidgets/include;../third_party/wxWidgets/include/msvc</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\wxWidgets-3.0.2\lib\vc_x64_lib\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\third_party\wxWidgets\lib\vc_x64_lib\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
