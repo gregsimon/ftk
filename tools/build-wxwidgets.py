@@ -14,6 +14,15 @@ def install_wxwidgets():
   #p = subprocess.Popen(['git', 'clone', '-b', 'WX_3_0_BRANCH', 'https://github.com/wxWidgets/wxWidgets.git'], cwd=r'third_party')
   #p.wait()
 
+  if os.name == "nt":
+  elif os.name == "osx":
+    build_osx()
+  else
+    print "OS not supported " + os.name
+
+
+
+def build_osx():
   # build debug version
   shutil.rmtree("third_party/wxWidgets/build-debug", True)
   make_sure_path_exists("third_party/wxWidgets/build-debug")
@@ -31,6 +40,7 @@ def install_wxwidgets():
   p.wait()
   p = subprocess.Popen(['make', '-j4'], cwd=r'third_party/wxWidgets/build-release/')
   p.wait()
+
 
 def make_sure_path_exists(path):
     try:
