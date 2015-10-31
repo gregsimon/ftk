@@ -175,7 +175,7 @@ typedef enum
 // USB Device
 typedef struct _usb_deviceRecord
 {
-    usb_endpoint * epinfo;      //device endpoint information
+    usb_endpoint * epinfo;     //device endpoint information
     uint8_t devclass;          //device class
 } usb_deviceRecord;
 
@@ -190,7 +190,7 @@ private:
 	static int controlRequest(usb_device * device, uint8_t requestType, uint8_t request, uint8_t valueLow, uint8_t valueHigh, uint16_t index, uint16_t length, uint8_t * data);
 	static int read(usb_device * device, usb_endpoint * endpoint, uint16_t length, uint8_t * data, unsigned int nakLimit);
 	static int write(usb_device * device, usb_endpoint * endpoint, uint16_t length, uint8_t * data);
-	static uint8_t ctrlData(usb_device * device, boolean direction, uint16_t length, uint8_t * data);
+	static uint8_t ctrlData(usb_device * device, bool direction, uint16_t length, uint8_t * data);
 
 public:
 	static void init();
@@ -200,6 +200,8 @@ public:
 	static int initDevice(usb_device * device, int configuration);
 	static usb_device * getDevice(uint8_t address);
 
+	static uint32_t millis();
+
 	static int setConfiguration(usb_device * device, uint8_t configuration);
 
 	static int getDeviceDescriptor(usb_device * device, usb_deviceDescriptor * descriptor);
@@ -208,8 +210,10 @@ public:
 
 	static void initEndPoint(usb_endpoint * endpoint, uint8_t address);
 
-	static int bulkRead(usb_device * device, uint16_t length, uint8_t * data, boolean poll);
+	static int bulkRead(usb_device * device, uint16_t length, uint8_t * data, bool poll);
 	static int bulkWrite(usb_device * device, uint16_t length, uint8_t * data);
+
+	static void log(const char*, ...);
 
 };
 

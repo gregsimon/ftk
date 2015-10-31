@@ -3,20 +3,18 @@
 
 #include "wx/wxprec.h"
 
-#include <wx/textfile.h>
-#include <wx/textctrl.h>
-#include <wx/stc/stc.h>
-#include <wx/font.h>
-#include <wx/filedlg.h>
-#include <wx/fontutil.h>
-#include <wx/wfstream.h>
-#include <wx/log.h>
-
-
-
 #ifndef WX_PRECOMP
-#include "wx/wx.h"
+// Include your minimal set of headers here, or wx.h
+#   include <wx/wx.h>
 #endif
+
+#include "wx/textfile.h"
+#include "wx/textctrl.h"
+#include "wx/stc/stc.h"
+
+
+#include "adb.h"
+
 
 #include "ftk_platform.h"
 
@@ -26,6 +24,9 @@
 class FTKApp : public wxApp
 {
 public:
+	FTKApp();
+	virtual ~FTKApp();
+
 	virtual bool OnInit();
 };
 
@@ -62,11 +63,22 @@ EVT_MENU(MENU_DebugStart, FTKFrame::OnDebugStart)
 wxEND_EVENT_TABLE()
 wxIMPLEMENT_APP(FTKApp);
 
+
+FTKApp::FTKApp()
+{
+}
+
+FTKApp::~FTKApp()
+{
+}
+
 bool FTKApp::OnInit()
 {
 	wxLog::SetActiveTarget(new wxLogStderr());
 
 	FTK_Platform_Init();
+
+	ADB::init();
 
 	FTKFrame *frame = new FTKFrame("Flutter ToolKit", wxPoint(50, 50), wxSize(1024, 768));
 	frame->Show(true);

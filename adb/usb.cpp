@@ -14,13 +14,14 @@
 	limitations under the License.#include <string.h>
 */
 
-#include "wiring.h"
+
+//#include "wiring.h"
 #include "usb.h"
 #include "ch9.h"
-#include "max3421e.h"
-#include "HardwareSerial.h"
+//#include "max3421e.h"
+//#include "HardwareSerial.h"
 
-#include <util/delay.h>
+//#include <util/delay.h>
 
 static uint8_t usb_error = 0;
 static uint8_t usb_task_state = USB_DETACHED_SUBSTATE_INITIALIZE;

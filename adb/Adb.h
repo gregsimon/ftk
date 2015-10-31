@@ -17,7 +17,6 @@
 #ifndef __adb_h__
 #define __adb_h__
 
-//#include "wiring.h"
 #include "usb.h"
 #include "ch9.h"
 
@@ -43,7 +42,7 @@ typedef struct
 {
 	uint8_t address;
 	uint8_t configuration;
-	uint8_t interface;
+	uint8_t iface;
 	uint8_t inputEndPointAddress;
 	uint8_t outputEndPointAddress;
 } adb_usbConfiguration;
@@ -127,7 +126,7 @@ private:
 	static void handleClose(Connection * connection);
 	static void handleWrite(Connection * connection, adb_message * message);
 	static void handleConnect(adb_message * message);
-	static bool isAdbInterface(usb_interfaceDescriptor * interface);
+	static bool isAdbInterface(usb_interfaceDescriptor * iface);
 
 public:
 	static void init();

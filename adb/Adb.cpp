@@ -28,6 +28,7 @@ static Connection * firstConnection;
 static bool connected;
 static int connectionLocalId = 1;
 
+
 // Event handler callback function.
 adb_eventHandler * eventHandler;
 
@@ -101,7 +102,7 @@ Connection * ADB::addConnection(const char * connectionString, bool reconnect, a
 	if (connection == NULL) return NULL;
 
 	// Allocate memory for the connection string
-	connection->connectionString = (char*)strdup(connectionString);
+	connection->connectionString = (char*)_strdup(connectionString);
 	if (connection->connectionString==NULL)
 	{
 		// Free the connection object and return null
@@ -240,7 +241,7 @@ int ADB::writeMessage(usb_device * device, uint32_t command, uint32_t arg0, uint
  */
 int ADB::writeStringMessage(usb_device * device, uint32_t command, uint32_t arg0, uint32_t arg1, char * str)
 {
-	return ADB::writeMessage(device, command, arg0, arg1, strlen(str) + 1, (uint8_t*)str);
+	return ADB::writeMessage(device, command, arg0, arg1, (uint32_t)strlen(str) + 1, (uint8_t*)str);
 }
 
 /**
@@ -289,14 +290,14 @@ void ADB::openClosedConnections()
 	// Iterate over the connection list and send "OPEN" for the ones that are currently closed.
 	for (connection = firstConnection; connection!=NULL; connection = connection->next)
 	{
-		timeSinceLastConnect = millis() - connection->lastConnectionAttempt;
+		timeSinceLastConnect = USB::millis() - connection->lastConnectionAttempt;
 		if (connection->status==ADB_CLOSED && timeSinceLastConnect>ADB_CONNECTION_RETRY_TIME)
 		{
 			// Issue open command.
 			ADB::writeStringMessage(adbDevice, A_OPEN, connection->localID, 0, connection->connectionString);
 
 			// Record the last attempt time
-			connection->lastConnectionAttempt = millis();
+			connection->lastConnectionAttempt = USB::millis();
 			connection->status = ADB_OPENING;
 
 		}
@@ -449,7 +450,7 @@ void ADB::poll()
 	if (!connected)
 	{
 		ADB::writeStringMessage(adbDevice, A_CNXN, 0x01000000, 4096, (char*)"host::microbridge");
-		delay(500); // Give the device some time to respond.
+		// TODO delay(500); // Give the device some time to respond.
 	}
 
 	// If we are connected, check if there are connections that need to be opened
@@ -528,7 +529,7 @@ bool ADB::isAdbDevice(usb_device * device, int configuration, adb_usbConfigurati
 	uint8_t descriptorType;
 
 	usb_configurationDescriptor * config = NULL;
-	usb_interfaceDescriptor * interface = NULL;
+	usb_interfaceDescriptor * iface = NULL;
 	usb_endpointDescriptor * endpoint = NULL;
 
 	while (pos < bytesRead)
@@ -542,13 +543,13 @@ bool ADB::isAdbDevice(usb_device * device, int configuration, adb_usbConfigurati
 			config = (usb_configurationDescriptor *)(buf + pos);
 			break;
 		case (USB_DESCRIPTOR_INTERFACE):
-			interface = (usb_interfaceDescriptor *)(buf + pos);
+			iface = (usb_interfaceDescriptor *)(buf + pos);
 
-			if (ADB::isAdbInterface(interface))
+			if (ADB::isAdbInterface(iface))
 			{
 				// handle->address = address;
 				handle->configuration = config->bConfigurationValue;
-				handle->interface = interface->bInterfaceNumber;
+				handle->iface = iface->bInterfaceNumber;
 
 				// Detected ADB interface!
 				ret = true;
@@ -558,7 +559,7 @@ bool ADB::isAdbDevice(usb_device * device, int configuration, adb_usbConfigurati
 			endpoint = (usb_endpointDescriptor *)(buf + pos);
 
 			// If this endpoint descriptor is found right after the ADB interface descriptor, it belong to that interface.
-			if (interface->bInterfaceNumber == handle->interface)
+			if (iface->bInterfaceNumber == handle->iface)
 			{
 				if (endpoint->bEndpointAddress & 0x80)
 					handle->inputEndPointAddress = endpoint->bEndpointAddress & ~0x80;

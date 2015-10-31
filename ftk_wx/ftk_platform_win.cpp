@@ -1,6 +1,9 @@
 
+#include "wx/wxprec.h"
+
 #include <windows.h>
 #include <tchar.h>
+
 
 #include "ftk_resource.h"
 
@@ -36,5 +39,7 @@ int FTK_Platform_Init()
 		return -4;
 
 	// TODO : we are leaking these handles right now
+
+	return 0;
 }
 
