@@ -8,6 +8,7 @@
 #include <wx/stc/stc.h>
 #include <wx/font.h>
 #include <wx/filedlg.h>
+#include <wx/fontutil.h>
 #include <wx/wfstream.h>
 #include <wx/log.h>
 
@@ -96,13 +97,15 @@ FTKFrame::FTKFrame(const wxString& title, const wxPoint& pos, const wxSize& size
 	CreateStatusBar();
 	SetStatusText("Welcome to Flutter ToolKit!");
 
-	main_edit_box_ = new wxStyledTextCtrl(this, TEXT_Main); 
-	/*
-	wxFont* font = new wxFont(10, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Consolas");
-	main_edit_box_->SetFont(*font);
-	main_edit_box_->SetBackgroundColour(wxColour(30, 30, 30));
-	main_edit_box_->SetForegroundColour(wxColour(200, 200, 200));
-	*/
+	main_edit_box_ = new wxStyledTextCtrl(this, TEXT_Main);
+
+	wxFont font(wxFontInfo(10).FaceName("Inconsolata"));
+	main_edit_box_->StyleSetFont(wxSTC_STYLE_DEFAULT, font);
+	//main_edit_box_->StyleSetBackground(wxSTC_STYLE_DEFAULT, wxColour(30, 30, 30));
+	//main_edit_box_->SetLexer(wxSTC_LEX_CPP);
+	//main_edit_box_->StyleSetForeground(wxSTC_STYLE_DEFAULT, wxColour(30, 30, 30)); // NOP?
+	
+
 }
 
 void FTKFrame::OnExit(wxCommandEvent& event)

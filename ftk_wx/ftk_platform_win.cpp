@@ -4,12 +4,19 @@
 
 #include "ftk_resource.h"
 
+int CALLBACK fontcallback(
+	const LOGFONT    *lpelfe,
+	const TEXTMETRIC *lpntme,
+	DWORD      FontType,
+	LPARAM     lParam
+	);
+
 int FTK_Platform_Init()
 {
 	// Make our custom Inconsolata.otf font available to load. In Windows
 	// we can pull the binary .otf file out of a resource, map it and 
 	// add it to the system where only our process can "see" it.
-	HRSRC hrc = FindResource(0, MAKEINTRESOURCE(IDR_PROGFONT), (RT_FONT));
+	HRSRC hrc = FindResource(GetModuleHandle(NULL), MAKEINTRESOURCE(IDR_PROGFONT), (RT_RCDATA));
 	if (!hrc)
 		return -1;
 
@@ -29,6 +36,5 @@ int FTK_Platform_Init()
 		return -4;
 
 	// TODO : we are leaking these handles right now
-
-	return 0;
 }
+
