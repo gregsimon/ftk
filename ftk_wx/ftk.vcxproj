@@ -27,6 +27,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">wx/wxprec.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="ftk_platform_win.cpp" />
+    <ClCompile Include="project_frame.cpp" />
     <ClCompile Include="wxprec.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -38,6 +39,7 @@
     <ClInclude Include="..\adb\ftk-adb-usb.h" />
     <ClInclude Include="ftk_platform.h" />
     <ClInclude Include="ftk_resource.h" />
+    <ClInclude Include="project_frame.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ftk_win.rc" />
