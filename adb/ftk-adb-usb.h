@@ -23,13 +23,16 @@ public:
 	wchar_t device_name[kMaxFilePath];
 	wchar_t device_path[kMaxFilePath];
 
-	AdbDevice() : device_name{ 0 }, device_path{ 0 } {}
+	AdbDevice() {
+    device_name[0] = 0;
+    device_path[0] = 0;
+  }
 	AdbDevice(const AdbDevice& left) {
 		*this = left;
 	}
 	AdbDevice& operator=(const AdbDevice& left) {
-		wcscpy_s(device_name, left.device_name);
-		wcscpy_s(device_path, left.device_path);
+		wcscpy(device_name, left.device_name);
+		wcscpy(device_path, left.device_path);
 		return *this;
 	}
 };

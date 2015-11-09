@@ -1,0 +1,14 @@
+WXTOOLKIT = cocoa
+WXTOOLKITUPPER = COCOA
+
+#include "../../third_party/wxWidgets/build/osx/wx.xcconfig"
+
+WXROOT=../../third_party/wxWidgets/
+
+MACOSX_DEPLOYMENT_TARGET = 10.5
+
+GCC_VERSION =
+
+ARCHS = x86_64
+
+OTHER_LDFLAGS = -framework WebKit -framework IOKit -framework Carbon -framework Cocoa -framework AudioToolbox -framework OpenGL -framework QTKit 

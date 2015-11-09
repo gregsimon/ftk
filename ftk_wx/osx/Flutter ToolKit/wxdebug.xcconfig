@@ -1,0 +1,3 @@
+GCC_OPTIMIZATION_LEVEL = 0
+ONLY_ACTIVE_ARCH = YES
+WXBUILDDIR=$(WXROOT)/build-debug/lib/wx/include/osx_cocoa-unicode-static-3.0/

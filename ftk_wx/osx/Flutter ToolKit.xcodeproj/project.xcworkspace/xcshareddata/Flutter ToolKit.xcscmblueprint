@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "006E2AF1693247EBA4CD486607320BBC35CDAE44",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "5C285CC5BBC4D979C3C77133623A240199AFF358" : 0,
+    "006E2AF1693247EBA4CD486607320BBC35CDAE44" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "D56A0124-FF5E-49BC-A8E0-0EC79172A63D",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "5C285CC5BBC4D979C3C77133623A240199AFF358" : "ftk\/third_party\/wxWidgets\/",
+    "006E2AF1693247EBA4CD486607320BBC35CDAE44" : "ftk\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Flutter ToolKit",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ftk_wx\/osx\/Flutter ToolKit.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/gregsimon\/ftk.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "006E2AF1693247EBA4CD486607320BBC35CDAE44"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/wxWidgets\/wxWidgets.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5C285CC5BBC4D979C3C77133623A240199AFF358"
+    }
+  ]
+}
