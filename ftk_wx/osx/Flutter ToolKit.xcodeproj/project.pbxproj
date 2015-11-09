@@ -239,7 +239,7 @@
 					"$(WXROOT)/include",
 				);
 				LIBRARY_SEARCH_PATHS = "$(WXROOT)/build-debug/lib";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -283,7 +283,7 @@
 					"$(WXROOT)/include",
 				);
 				LIBRARY_SEARCH_PATHS = "$(WXROOT)/build-release/lib";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 			};
