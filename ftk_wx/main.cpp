@@ -13,7 +13,7 @@
 #include "wx/stc/stc.h"
 
 
-#include "adb.h"
+#include "../adb/ftk-adb-usb.h"
 
 
 #include "ftk_platform.h"
@@ -70,6 +70,7 @@ FTKApp::FTKApp()
 
 FTKApp::~FTKApp()
 {
+	
 }
 
 bool FTKApp::OnInit()
@@ -78,7 +79,7 @@ bool FTKApp::OnInit()
 
 	FTK_Platform_Init();
 
-	ADB::init();
+	
 
 	FTKFrame *frame = new FTKFrame("Flutter ToolKit", wxPoint(50, 50), wxSize(1024, 768));
 	frame->Show(true);
