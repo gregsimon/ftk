@@ -23,7 +23,6 @@ FTKProjectFrame::FTKProjectFrame(const wxString& title, const wxPoint& pos, cons
 {
 
 	// Build the menus
-
 	wxMenu *menuFile = new wxMenu;
 	menuFile->Append(wxID_OPEN, "&Open...\tCtrl-O",
 		"Open file");
@@ -45,28 +44,30 @@ FTKProjectFrame::FTKProjectFrame(const wxString& title, const wxPoint& pos, cons
 	CreateStatusBar();
 	SetStatusText("Welcome to Flutter ToolKit!");
 
+  // Container to hold all the contents of the window
+  wxPanel* root_panel = new wxPanel(this);
 
 	// Create the subviews
 	wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
 
-	
+	// project list area
+	_project_list_ctl = new wxListCtrl(root_panel, PROJECT_List, wxPoint(0,0), wxSize(260,320));
+	hbox->Add(_project_list_ctl, 0, wxEXPAND | wxALL, 1);
 
-	//wxPanel* panel = new wxPanel(this, -1);
-
-	// project list
-	_project_list_ctl = new wxListCtrl(this, PROJECT_List, wxPoint(0,0), wxSize(320, 640));
-	hbox->Add(_project_list_ctl, 1, wxEXPAND | wxALL, 2);
-
-	// text editor
-	_main_edit_box = new wxStyledTextCtrl(this, TEXT_Main);
-	wxFont font(wxFontInfo(9).FaceName("Inconsolata"));
+	// text editor area
+	_main_edit_box = new wxStyledTextCtrl(root_panel, TEXT_Main);
+#ifdef __WXOSX__
+	wxFont font(wxFontInfo(12).FaceName("Menlo"));
+#else
+  wxFont font(wxFontInfo(10).FaceName("Consolas"));
+#endif
 	_main_edit_box->StyleSetFont(wxSTC_STYLE_DEFAULT, font);
-	hbox->Add(_main_edit_box, 1, wxEXPAND | wxALL, 2);
+  _main_edit_box->SetTabWidth(2);
+	hbox->Add(_main_edit_box, 4, wxEXPAND | wxALL, 1);
 
 	
-	SetSizerAndFit(hbox);
-
-	//panel->SetSizer(vbox);
+	root_panel->SetSizerAndFit(hbox);
+  
 
 }
 
