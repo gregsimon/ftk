@@ -2,14 +2,6 @@
 
 # Building
 
-## Common (all platforms)
-
-Pull down the 3.x branch of wxWidgets:
-```
-python tools/build_wxwidgets.py
-```
-
-
 ## Building on Windows
 
 Note this has only been tested with VC 2015. It probably works with other versions.
@@ -26,7 +18,11 @@ wxWidgets\lib\vc_x64_lib\*.lib
 
 ## Building on OSX
 
-There is nothing to do -- the python script you ran above took care of it. You'll have the following libraries:
+Run:
+
+ `python tools/build_wxwidgets.py`
+
+You'll then have the following libraries:
 
 ```
 wxWidgets/build-debug/lib/*.a
