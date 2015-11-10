@@ -15,7 +15,7 @@ python tools/build_wxwidgets.py
 Note this has only been tested with VC 2015. It probably works with other versions.
 
 1. Open Visual Studio 2015.
-2. Open `wxWidgets\build\msw\wx_vc12.dsw`
+2. Open `wxWidgets\build\msw\wx.dsw`
 3. Select "Release" and "x64"
 4. Build (press F7)
 
