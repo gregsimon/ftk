@@ -7,19 +7,29 @@ import subprocess
 import errno
 import shutil
 
-def install_wxwidgets():
-  make_sure_path_exists("third_party")
+def install_and_build_wxwidgets():
 
+  #make_sure_path_exists("third_party")
   # git clone the 3.x branch of wxWidgets
   #p = subprocess.Popen(['git', 'clone', '-b', 'WX_3_0_BRANCH', 'https://github.com/wxWidgets/wxWidgets.git'], cwd=r'third_party')
   #p.wait()
 
   if os.name == "nt":
+    build_win()
   elif os.name == "osx":
     build_osx()
-  else
-    print "OS not supported " + os.name
+  else:
+    print("OS " + os.name + " not supported yet")
 
+
+def build_win():
+  p = subprocess.Popen(['nmake', '/f', 'makefile.vc', 'TARGET_CPU=X64', 'BUILD=release'], \
+        cwd=r'third_party/wxWidgets/build/msw/')
+  p.wait()
+
+  p = subprocess.Popen(['nmake', '/f', 'makefile.vc', 'TARGET_CPU=X64'], \
+        cwd=r'third_party/wxWidgets/build/msw/')
+  p.wait()
 
 
 def build_osx():
@@ -51,4 +61,4 @@ def make_sure_path_exists(path):
 
 
 
-install_wxwidgets()
+install_and_build_wxwidgets()
