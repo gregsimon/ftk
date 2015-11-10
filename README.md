@@ -14,10 +14,10 @@ python tools/build_wxwidgets.py
 
 Note this has only been tested with VC 2015. It probably works with other versions.
 
-1. Open Visual Studio 2015.
-2. Open `wxWidgets\build\msw\wx.dsw`
-3. Select "Release" and "x64"
-4. Build (press F7)
+1. Start a command line with Visual Studio 2015 X64 command line tools.
+2. cd to `wxWidgets\build\msw\`
+3. `nmake /f makefile.vc TARGET_CPU=X64 BUILD=release`
+4. `nmake /f makefile.vc TARGET_CPU=X64`
 
 When complete you'll have static libraries the following folder:
 ```
