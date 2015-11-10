@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../project_frame.cpp"
-            timestampString = "468888729.833669"
+            timestampString = "468889466.233456"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
             landmarkName = "FTKProjectFrame::FTKProjectFrame(const wxString&amp; title, const wxPoint&amp; pos, const wxSize&amp; size)"
             landmarkType = "5">
          </BreakpointContent>

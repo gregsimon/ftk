@@ -5,6 +5,10 @@ enum
 {
 	MENU_DebugStart = wxID_HIGHEST + 1,
 	MENU_DebugStop,
+  MENU_NewProject,
+  MENU_SDKManager,
+  MENU_Devices,
+
 	TEXT_Main,
 	PROJECT_List,
 
@@ -15,6 +19,8 @@ wxBEGIN_EVENT_TABLE(FTKProjectFrame, wxFrame)
 EVT_MENU(wxID_OPEN, FTKProjectFrame::OnOpen)
 EVT_MENU(wxID_EXIT, FTKProjectFrame::OnExit)
 EVT_MENU(wxID_ABOUT, FTKProjectFrame::OnAbout)
+EVT_MENU(wxID_SAVE, FTKProjectFrame::OnSave)
+EVT_MENU(wxID_SAVEAS, FTKProjectFrame::OnSaveAs)
 EVT_MENU(MENU_DebugStart, FTKProjectFrame::OnDebugStart)
 wxEND_EVENT_TABLE()
 
@@ -24,20 +30,33 @@ FTKProjectFrame::FTKProjectFrame(const wxString& title, const wxPoint& pos, cons
 
 	// Build the menus
 	wxMenu *menuFile = new wxMenu;
+  menuFile->Append(wxID_NEW, "&New...\tCtrl+N",
+    "New File");
+  menuFile->Append(MENU_NewProject, "&New Project...",
+    "New Project");
+  menuFile->AppendSeparator();
 	menuFile->Append(wxID_OPEN, "&Open...\tCtrl-O",
 		"Open file");
 	menuFile->AppendSeparator();
 	menuFile->Append(wxID_EXIT);
+  
 
 	wxMenu* menuDebug = new wxMenu;
 	menuDebug->Append(MENU_DebugStart, "Start Debugging\tF5",
 		"Start debugging this project");
+  
+  wxMenu* menuWindow = new wxMenu;
+  menuWindow->Append(MENU_SDKManager, "SDK Manager",
+                     "Open the SDK Manager");
+  menuWindow->Append(MENU_Devices, "Devices",
+                     "Open the device manager");
 
 	wxMenu *menuHelp = new wxMenu;
 	menuHelp->Append(wxID_ABOUT);
 	wxMenuBar *menuBar = new wxMenuBar;
 	menuBar->Append(menuFile, "&File");
 	menuBar->Append(menuDebug, "&Debug");
+  menuBar->Append(menuWindow, "&Window");
 	menuBar->Append(menuHelp, "&Help");
 	SetMenuBar(menuBar);
 
@@ -63,6 +82,7 @@ FTKProjectFrame::FTKProjectFrame(const wxString& title, const wxPoint& pos, cons
 #endif
 	_main_edit_box->StyleSetFont(wxSTC_STYLE_DEFAULT, font);
   _main_edit_box->SetTabWidth(2);
+  _main_edit_box->SetLexer(wxSTC_LEX_CPP);
 	hbox->Add(_main_edit_box, 4, wxEXPAND | wxALL, 1);
 
 	
@@ -72,6 +92,14 @@ FTKProjectFrame::FTKProjectFrame(const wxString& title, const wxPoint& pos, cons
 }
 
 FTKProjectFrame::~FTKProjectFrame()
+{
+}
+
+void FTKProjectFrame::OnSave(wxCommandEvent& event)
+{
+}
+
+void FTKProjectFrame::OnSaveAs(wxCommandEvent& event)
 {
 }
 

@@ -21,6 +21,8 @@ private:
 	void OnExit(wxCommandEvent& event);
 	void OnDebugStart(wxCommandEvent& event);
 	void OnAbout(wxCommandEvent& event);
+  void OnSave(wxCommandEvent& event);
+  void OnSaveAs(wxCommandEvent& event);
 	wxDECLARE_EVENT_TABLE();
 
 	wxListCtrl* _project_list_ctl;
