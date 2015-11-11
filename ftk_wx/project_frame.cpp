@@ -1,5 +1,9 @@
+
 #include "wx/wxprec.h"
+#include "wx/filedlg.h"
+
 #include "project_frame.h"
+#include "command_bar.h"
 
 enum
 {
@@ -60,14 +64,20 @@ FTKProjectFrame::FTKProjectFrame(const wxString& title, const wxPoint& pos, cons
 	menuBar->Append(menuHelp, "&Help");
 	SetMenuBar(menuBar);
 
+  // status bar
 	CreateStatusBar();
 	SetStatusText("Welcome to Flutter ToolKit!");
 
   // Container to hold all the contents of the window
   wxPanel* root_panel = new wxPanel(this);
 
+  wxBoxSizer *vbox = new wxBoxSizer(wxVERTICAL);
+
 	// Create the subviews
 	wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
+
+  _command_bar = new FTKCommandBar(root_panel, wxDefaultPosition, wxSize(320,52));
+  vbox->Add(_command_bar, 0, wxEXPAND, 0);
 
 	// project list area
 	_project_list_ctl = new wxListCtrl(root_panel, PROJECT_List, wxPoint(0,0), wxSize(260,320));
@@ -88,58 +98,34 @@ FTKProjectFrame::FTKProjectFrame(const wxString& title, const wxPoint& pos, cons
   _main_edit_box->SetIndent(2);
 
   const int MARGIN_LINE_NUMBERS = 0;
+  const int kMarginWidth = 30;
 
-  _main_edit_box->SetMarginWidth(MARGIN_LINE_NUMBERS, 18);
+  _main_edit_box->SetMarginWidth(MARGIN_LINE_NUMBERS, kMarginWidth);
   _main_edit_box->StyleSetForeground(wxSTC_STYLE_LINENUMBER, wxColor(75, 75, 75));
-  _main_edit_box->StyleSetBackground(wxSTC_STYLE_LINENUMBER, wxColour(220, 220, 220));
+  _main_edit_box->StyleSetBackground(wxSTC_STYLE_LINENUMBER, wxColor(220, 220, 220));
   _main_edit_box->SetMarginType(MARGIN_LINE_NUMBERS, wxSTC_MARGIN_NUMBER);
   _main_edit_box->SetWrapMode(wxSTC_WRAP_NONE);
 
   _main_edit_box->StyleClearAll();
   _main_edit_box->SetLexer(wxSTC_LEX_CPP);
 
-  /*
-  #define wxSTC_C_DEFAULT 0
-#define wxSTC_C_COMMENT 1
-#define wxSTC_C_COMMENTLINE 2
-#define wxSTC_C_COMMENTDOC 3
-#define wxSTC_C_NUMBER 4
-#define wxSTC_C_WORD 5
-#define wxSTC_C_STRING 6
-#define wxSTC_C_CHARACTER 7
-#define wxSTC_C_UUID 8
-#define wxSTC_C_PREPROCESSOR 9
-#define wxSTC_C_OPERATOR 10
-#define wxSTC_C_IDENTIFIER 11
-#define wxSTC_C_STRINGEOL 12
-#define wxSTC_C_VERBATIM 13
-#define wxSTC_C_REGEX 14
-#define wxSTC_C_COMMENTLINEDOC 15
-#define wxSTC_C_WORD2 16
-#define wxSTC_C_COMMENTDOCKEYWORD 17
-#define wxSTC_C_COMMENTDOCKEYWORDERROR 18
-#define wxSTC_C_GLOBALCLASS 19
-#define wxSTC_C_STRINGRAW 20
-#define wxSTC_C_TRIPLEVERBATIM 21
-#define wxSTC_C_HASHQUOTEDSTRING 22
-#define wxSTC_C_PREPROCESSORCOMMENT 23
-*/
   // CPP style colors
   _main_edit_box->StyleSetForeground(wxSTC_C_COMMENT, wxColor(150, 150, 150));
   _main_edit_box->StyleSetForeground(wxSTC_C_COMMENTLINE, wxColor(150, 150, 150));
   _main_edit_box->StyleSetForeground(wxSTC_C_WORD2, wxColor(0, 0, 255));
   _main_edit_box->StyleSetForeground(wxSTC_C_STRING, wxColor(255, 0, 0));
   _main_edit_box->StyleSetForeground(wxSTC_C_CHARACTER, wxColor(255, 0, 0));
+  // ...
 
   _main_edit_box->SetKeyWords(0, "await abstract as base break case catch checked continue default delegate do else event explicit extern false finally fixed for foreach goto if implicit in interface internal is lock namespace new null object operator out override params private protected public readonly ref return sealed sizeof stackalloc switch this throw true try typeof unchecked unsafe using virtual while");
   _main_edit_box->SetKeyWords(1, "bool byte char class const decimal double enum float int long sbyte short static string struct uint ulong ushort void");
 
 	hbox->Add(_main_edit_box, 4, wxEXPAND | wxALL, 1);
 
-	
-	root_panel->SetSizerAndFit(hbox);
-  
+  vbox->Add(hbox, 1, wxEXPAND | wxALL, 0);
 
+
+  root_panel->SetSizerAndFit(vbox);
 }
 
 FTKProjectFrame::~FTKProjectFrame()

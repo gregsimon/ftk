@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="..\adb\ftk-adb-usb-win.cpp" />
     <ClCompile Include="..\adb\ftk-adb.cpp" />
+    <ClCompile Include="command_bar.cpp" />
     <ClCompile Include="main.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
@@ -37,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\adb\ftk-adb-usb.h" />
+    <ClInclude Include="command_bar.h" />
     <ClInclude Include="ftk_platform.h" />
     <ClInclude Include="ftk_resource.h" />
     <ClInclude Include="project_frame.h" />

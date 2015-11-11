@@ -8,6 +8,8 @@
 #include "wx/stc/stc.h"
 #include "wx/listctrl.h"
 
+class FTKCommandBar;
+
 class FTKProjectFrame : public wxFrame
 {
 public:
@@ -27,6 +29,7 @@ private:
 
 	wxListCtrl* _project_list_ctl;
 	wxStyledTextCtrl *_main_edit_box;
+  FTKCommandBar* _command_bar;
 };
 
 
