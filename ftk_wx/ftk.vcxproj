@@ -44,12 +44,6 @@
   <ItemGroup>
     <ResourceCompile Include="ftk_win.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="font1.bin" />
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="..\fonts\Inconsolata.otf" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E6F51107-AA08-4555-927E-29CD6DD5B4B7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
