@@ -1,8 +1,7 @@
 #ifndef __project_frame_h__
 #define __project_frame_h__
 
-#include "wx/wxprec.h"
-
+#include "wx/frame.h"
 #include "wx/textfile.h"
 #include "wx/textctrl.h"
 #include "wx/stc/stc.h"

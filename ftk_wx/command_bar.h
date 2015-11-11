@@ -1,8 +1,6 @@
 #ifndef __command_bar_h__
 #define __command_bar_h__
 
-#include "wx/wxprec.h"
-
 #include "wx/panel.h"
 #include "wx/combobox.h"
 

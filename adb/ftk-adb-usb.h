@@ -3,6 +3,7 @@
 
 #include <list>
 #include <wchar.h>
+#include <stdint.h>
 
 const int kMaxFilePath = 2048;
 
