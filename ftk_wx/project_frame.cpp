@@ -87,6 +87,8 @@ FTKProjectFrame::FTKProjectFrame(const wxString& title, const wxPoint& pos, cons
 	_main_edit_box = new wxStyledTextCtrl(root_panel, TEXT_Main);
 #ifdef __WXOSX__
 	wxFont font(wxFontInfo(12).FaceName("Menlo"));
+#elif __WXGTK__
+  wxFont font(wxFontInfo(10).FaceName("Courier New"));
 #else
   wxFont font(wxFontInfo(9).FaceName("Consolas"));
 #endif
