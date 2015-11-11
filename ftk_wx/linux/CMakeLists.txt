@@ -8,8 +8,13 @@ project (ftk)
 
 include_directories(..)
 include_directories(../adb)
-include_directories(../../third_party/wxWidgets/build-debug/lib/wx/include/gtk2-unicode-static-3.0)
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+  include_directories(../../third_party/wxWidgets/build-debug/lib/wx/include/gtk2-unicode-static-3.0)
+else()
+  include_directories(../../third_party/wxWidgets/build-release/lib/wx/include/gtk2-unicode-static-3.0)
+endif()
 include_directories(../../third_party/wxWidgets/include)
+
 
 # flags specific to wxWidgets
 add_definitions(-D_FILE_OFFSET_BITS=64)
@@ -24,7 +29,11 @@ set ( SOURCES
   ../project_frame.cpp
 )
 
-link_directories(../../third_party/wxWidgets/build-debug/lib)
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+  link_directories(../../third_party/wxWidgets/build-debug/lib)
+else()
+  link_directories(../../third_party/wxWidgets/build-release/lib)
+endif()
 
 add_executable(ftk ${SOURCES})
 set_target_properties(ftk PROPERTIES COTIRE_CXX_PREFIX_HEADER_INIT 
