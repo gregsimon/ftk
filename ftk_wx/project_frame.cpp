@@ -78,11 +78,62 @@ FTKProjectFrame::FTKProjectFrame(const wxString& title, const wxPoint& pos, cons
 #ifdef __WXOSX__
 	wxFont font(wxFontInfo(12).FaceName("Menlo"));
 #else
-  wxFont font(wxFontInfo(10).FaceName("Consolas"));
+  wxFont font(wxFontInfo(9).FaceName("Consolas"));
 #endif
+
+  _main_edit_box->StyleResetDefault();
 	_main_edit_box->StyleSetFont(wxSTC_STYLE_DEFAULT, font);
+  
   _main_edit_box->SetTabWidth(2);
+  _main_edit_box->SetIndent(2);
+
+  const int MARGIN_LINE_NUMBERS = 0;
+
+  _main_edit_box->SetMarginWidth(MARGIN_LINE_NUMBERS, 18);
+  _main_edit_box->StyleSetForeground(wxSTC_STYLE_LINENUMBER, wxColor(75, 75, 75));
+  _main_edit_box->StyleSetBackground(wxSTC_STYLE_LINENUMBER, wxColour(220, 220, 220));
+  _main_edit_box->SetMarginType(MARGIN_LINE_NUMBERS, wxSTC_MARGIN_NUMBER);
+  _main_edit_box->SetWrapMode(wxSTC_WRAP_NONE);
+
+  _main_edit_box->StyleClearAll();
   _main_edit_box->SetLexer(wxSTC_LEX_CPP);
+
+  /*
+  #define wxSTC_C_DEFAULT 0
+#define wxSTC_C_COMMENT 1
+#define wxSTC_C_COMMENTLINE 2
+#define wxSTC_C_COMMENTDOC 3
+#define wxSTC_C_NUMBER 4
+#define wxSTC_C_WORD 5
+#define wxSTC_C_STRING 6
+#define wxSTC_C_CHARACTER 7
+#define wxSTC_C_UUID 8
+#define wxSTC_C_PREPROCESSOR 9
+#define wxSTC_C_OPERATOR 10
+#define wxSTC_C_IDENTIFIER 11
+#define wxSTC_C_STRINGEOL 12
+#define wxSTC_C_VERBATIM 13
+#define wxSTC_C_REGEX 14
+#define wxSTC_C_COMMENTLINEDOC 15
+#define wxSTC_C_WORD2 16
+#define wxSTC_C_COMMENTDOCKEYWORD 17
+#define wxSTC_C_COMMENTDOCKEYWORDERROR 18
+#define wxSTC_C_GLOBALCLASS 19
+#define wxSTC_C_STRINGRAW 20
+#define wxSTC_C_TRIPLEVERBATIM 21
+#define wxSTC_C_HASHQUOTEDSTRING 22
+#define wxSTC_C_PREPROCESSORCOMMENT 23
+*/
+  // CPP style colors
+  _main_edit_box->StyleSetForeground(wxSTC_C_COMMENT, wxColor(150, 150, 150));
+  _main_edit_box->StyleSetForeground(wxSTC_C_COMMENTLINE, wxColor(150, 150, 150));
+  _main_edit_box->StyleSetForeground(wxSTC_C_WORD2, wxColor(0, 0, 255));
+  _main_edit_box->StyleSetForeground(wxSTC_C_STRING, wxColor(255, 0, 0));
+  _main_edit_box->StyleSetForeground(wxSTC_C_CHARACTER, wxColor(255, 0, 0));
+
+  _main_edit_box->SetKeyWords(0, "await abstract as base break case catch checked continue default delegate do else event explicit extern false finally fixed for foreach goto if implicit in interface internal is lock namespace new null object operator out override params private protected public readonly ref return sealed sizeof stackalloc switch this throw true try typeof unchecked unsafe using virtual while");
+  _main_edit_box->SetKeyWords(1, "bool byte char class const decimal double enum float int long sbyte short static string struct uint ulong ushort void");
+
 	hbox->Add(_main_edit_box, 4, wxEXPAND | wxALL, 1);
 
 	
