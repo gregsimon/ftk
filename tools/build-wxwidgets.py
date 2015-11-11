@@ -9,17 +9,30 @@ import shutil
 
 def install_and_build_wxwidgets():
 
-  #make_sure_path_exists("third_party")
-  # git clone the 3.x branch of wxWidgets
-  #p = subprocess.Popen(['git', 'clone', '-b', 'WX_3_0_BRANCH', 'https://github.com/wxWidgets/wxWidgets.git'], cwd=r'third_party')
-  #p.wait()
-
   if os.name == "nt":
     build_win()
   elif os.name == "osx":
     build_osx()
+  elif os.name == "posix":
+    build_posix()
   else:
-    print("OS " + os.name + " not supported yet")
+    print("'" + os.name + "' not supported yet")
+
+
+def build_posix():
+  make_sure_path_exists("third_party/wxWidgets/build-debug")
+  p = subprocess.Popen(['../configure', '-disable-shared', '--enable-monolithic', '--enable-debug', '--with-libpng'], \
+        cwd=r'third_party/wxWidgets/build-debug/')
+  p.wait()
+  p = subprocess.Popen(['make', '-j4'], cwd=r'third_party/wxWidgets/build-debug/')
+  p.wait()
+
+  make_sure_path_exists("third_party/wxWidgets/build-release")
+  p = subprocess.Popen(['../configure', '-disable-shared', '--enable-monolithic', '--with-libpng'], \
+        cwd=r'third_party/wxWidgets/build-release/')
+  p.wait()
+  p = subprocess.Popen(['make', '-j4'], cwd=r'third_party/wxWidgets/build-release/')
+  p.wait()
 
 
 def build_win():
