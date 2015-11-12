@@ -1,7 +1,12 @@
 
+#ifndef __yaml_private_h__
+#define __yaml_private_h__
+
+
 #if HAVE_CONFIG_H
 #include <config.h>
 #endif
+
 
 #define _CRT_SECURE_NO_WARNINGS
 
@@ -657,3 +662,4 @@ yaml_queue_extend(void **start, void **head, void **tail, void **end);
      (node).data.mapping.pairs.top = (node_pairs_start),                        \
      (node).data.mapping.style = (node_style))
 
+#endif /* __yaml_private_h__ */

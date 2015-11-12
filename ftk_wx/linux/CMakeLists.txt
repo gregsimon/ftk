@@ -7,7 +7,8 @@ include(cotire)
 project (ftk)
 
 include_directories(..)
-include_directories(../adb)
+include_directories(../../adb)
+include_directories(../../third_party/yaml/include)
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
   include_directories(../../third_party/wxWidgets/build-debug/lib/wx/include/gtk2-unicode-static-3.0)
 else()
@@ -29,13 +30,15 @@ set ( SOURCES
   ../project_frame.cpp
 )
 
+file (GLOB YAML_SOURCES ../../third_party/yaml/src/*.c)
+
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
   link_directories(../../third_party/wxWidgets/build-debug/lib)
 else()
   link_directories(../../third_party/wxWidgets/build-release/lib)
 endif()
 
-add_executable(ftk ${SOURCES})
+add_executable(ftk ${SOURCES} ${YAML_SOURCES})
 set_target_properties(ftk PROPERTIES COTIRE_CXX_PREFIX_HEADER_INIT 
   "../../third_party/wxWidgets/include/wx/wxprec.h")
 cotire(ftk)

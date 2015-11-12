@@ -60,10 +60,20 @@ yaml_free(void *ptr)
 YAML_DECLARE(yaml_char_t *)
 yaml_strdup(const yaml_char_t *str)
 {
+    char* copy;
+    size_t len;
+
     if (!str)
         return NULL;
 
-    return (yaml_char_t *)_strdup((char *)str);
+    len = strlen((const char*)str);
+    copy = (char*)malloc(len+1);
+    if (!copy)
+        return NULL;
+
+    strcpy(copy, (const char*)str);
+
+    return (yaml_char_t *)copy;
 }
 
 /*
