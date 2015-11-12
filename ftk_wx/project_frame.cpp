@@ -5,6 +5,8 @@
 #include "project_frame.h"
 #include "command_bar.h"
 
+#include "yaml.h"
+
 namespace ftk {
 
   enum
@@ -168,30 +170,97 @@ namespace ftk {
   {
     wxFileDialog
       openFileDialog(this, _("Open file"), "", "",
-        "Dart files (*.dart)|*.dart|CoffeeScript files (*.coffee)|*.coffee|JavaScript files (*.js)|*.js", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+        "Dart files (*.dart)|*.dart|Flutter Projects (*.yaml)|*.yaml|All Files (*.*)|*.*", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
     if (openFileDialog.ShowModal() == wxID_CANCEL)
-      return;     // the user changed idea...
-
-
-    wxString        complete_file_contents;
-    wxString        str;
-    wxTextFile      tfile;
-    if (!tfile.Open(openFileDialog.GetPath())) {
-      wxLogError("Cannot open file '%s'.", openFileDialog.GetPath());
       return;
-    }
 
-    // read the first line
-    str = tfile.GetFirstLine();
-    complete_file_contents += str;
-    while (!tfile.Eof())
+
+    wxString        path = openFileDialog.GetPath();
+    if (path.EndsWith(".yaml"))
     {
-      str = tfile.GetNextLine();
-      complete_file_contents += "\n";
-      complete_file_contents += str;
-    }
+      // -- Load a new project
+      yaml_parser_t parser;
+      yaml_event_t evt;
+      int done = 0;
+      FILE *input;
 
-    _main_edit_box->SetValue(complete_file_contents);
+      yaml_parser_initialize(&parser);
+
+      if ((input = fopen(path, "rb")))
+      {
+        yaml_parser_set_input_file(&parser, input);
+
+        while (!done) {
+          // Get the next event.
+          if (!yaml_parser_parse(&parser, &evt)) {
+            wxLogError("Syntax error parsing YAML file '%s'.", path);
+            break;
+          }
+
+          switch (evt.type)
+          {
+          case YAML_MAPPING_START_EVENT:
+            wxLogMessage("<mapping>");
+            break;
+          case YAML_MAPPING_END_EVENT:
+            wxLogMessage("</mapping>");
+            break;
+          case YAML_SEQUENCE_START_EVENT:
+            wxLogMessage("<seq>");
+            break;
+          case YAML_SEQUENCE_END_EVENT:
+            wxLogMessage("</seq>");
+            break;
+          case YAML_SCALAR_EVENT:
+            wxLogMessage("%d %d %s %s %s", 
+              evt.data.scalar.plain_implicit,
+              evt.data.scalar.style,
+              (const char*)evt.data.scalar.anchor,
+              (const char*)evt.data.scalar.tag,
+              (const char*)evt.data.scalar.value);
+            break;
+          default:
+            break;
+          }
+
+          // Are we finished?
+          done = (evt.type == YAML_STREAM_END_EVENT);
+
+          // The application is responsible for destroying the event object.
+          yaml_event_delete(&evt);
+
+        }
+
+
+        fclose(input);
+      }
+
+      yaml_parser_delete(&parser);
+
+    }
+    else 
+    {
+      // -- Load a file into the editor
+      wxString        complete_file_contents;
+      wxString        str;
+      wxTextFile      tfile;
+      if (!tfile.Open(path)) {
+        wxLogError("Cannot open file '%s'.", path);
+        return;
+      }
+
+      // read the first line
+      str = tfile.GetFirstLine();
+      complete_file_contents += str;
+      while (!tfile.Eof())
+      {
+        str = tfile.GetNextLine();
+        complete_file_contents += "\n";
+        complete_file_contents += str;
+      }
+
+      _main_edit_box->SetValue(complete_file_contents);
+    }
   }
 
   void ProjectFrame::OnDebugStart(wxCommandEvent& event)
