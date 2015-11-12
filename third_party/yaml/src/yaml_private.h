@@ -3,6 +3,8 @@
 #define __yaml_private_h__
 
 
+#define HAVE_CONFIG_H 0
+
 #if HAVE_CONFIG_H
 #include <config.h>
 #endif
