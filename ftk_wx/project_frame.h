@@ -7,30 +7,33 @@
 #include "wx/stc/stc.h"
 #include "wx/listctrl.h"
 
-class FTKCommandBar;
+namespace ftk {
 
-class FTKProjectFrame : public wxFrame
-{
-public:
-	FTKProjectFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
-	~FTKProjectFrame();
+  class CommandBar;
 
-	
+  class ProjectFrame : public wxFrame
+  {
+  public:
+    ProjectFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
+    ~ProjectFrame();
 
-private:
-	void OnOpen(wxCommandEvent& event);
-	void OnExit(wxCommandEvent& event);
-	void OnDebugStart(wxCommandEvent& event);
-	void OnAbout(wxCommandEvent& event);
-  void OnSave(wxCommandEvent& event);
-  void OnSaveAs(wxCommandEvent& event);
-	wxDECLARE_EVENT_TABLE();
 
-	wxListCtrl* _project_list_ctl;
-	wxStyledTextCtrl *_main_edit_box;
-  FTKCommandBar* _command_bar;
-};
 
+  private:
+    void OnOpen(wxCommandEvent& event);
+    void OnExit(wxCommandEvent& event);
+    void OnDebugStart(wxCommandEvent& event);
+    void OnAbout(wxCommandEvent& event);
+    void OnSave(wxCommandEvent& event);
+    void OnSaveAs(wxCommandEvent& event);
+    wxDECLARE_EVENT_TABLE();
+
+    wxListCtrl* _project_list_ctl;
+    wxStyledTextCtrl *_main_edit_box;
+    CommandBar* _command_bar;
+  };
+
+} // namespace ftk
 
 #endif
 

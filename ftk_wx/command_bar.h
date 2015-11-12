@@ -4,19 +4,22 @@
 #include "wx/panel.h"
 #include "wx/combobox.h"
 
-class FTKCommandBar : public wxPanel
-{
-public:
-  FTKCommandBar(wxWindow* parent, const wxPoint& pos, const wxSize& size);
-  ~FTKCommandBar();
+namespace ftk {
+
+  class CommandBar : public wxPanel
+  {
+  public:
+    CommandBar(wxWindow* parent, const wxPoint& pos, const wxSize& size);
+    ~CommandBar();
 
 
 
-private:
- // wxDECLARE_EVENT_TABLE();
+  private:
+    // wxDECLARE_EVENT_TABLE();
 
-};
+  };
 
+} // namespace ftk
 
 #endif
 

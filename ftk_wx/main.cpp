@@ -9,42 +9,45 @@
 #include "../adb/ftk-adb-usb.h"
 
 
+namespace ftk {
 
 
-// -----------------------------------------------------------------------
+
+  // -----------------------------------------------------------------------
 
 
-class FTKApp : public wxApp
-{
-public:
-	FTKApp();
-	virtual ~FTKApp();
+  class ToolkitApp : public wxApp
+  {
+  public:
+    ToolkitApp();
+    virtual ~ToolkitApp();
 
-	virtual bool OnInit();
-};
+    virtual bool OnInit();
+  };
 
-wxIMPLEMENT_APP(FTKApp);
+  wxIMPLEMENT_APP(ftk::ToolkitApp);
 
 
-FTKApp::FTKApp()
-{
-}
+  ToolkitApp::ToolkitApp()
+  {
+  }
 
-FTKApp::~FTKApp()
-{
-	
-}
+  ToolkitApp::~ToolkitApp()
+  {
 
-bool FTKApp::OnInit()
-{
-	wxLog::SetActiveTarget(new wxLogStderr());
+  }
 
-	FTK_Platform_Init();
+  bool ToolkitApp::OnInit()
+  {
+    wxLog::SetActiveTarget(new wxLogStderr());
 
-	
+    FTK_Platform_Init();
 
-	FTKProjectFrame *frame = new FTKProjectFrame("Flutter ToolKit", wxPoint(50, 50), wxSize(1024, 768));
-	frame->Show(true);
-	return true;
-}
 
+
+    ProjectFrame *frame = new ProjectFrame("Flutter ToolKit", wxPoint(50, 50), wxSize(1024, 768));
+    frame->Show(true);
+    return true;
+  }
+
+} // namespace ftk
