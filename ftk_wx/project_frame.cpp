@@ -93,7 +93,7 @@ namespace ftk {
 #ifdef __WXOSX__
     wxFont font(wxFontInfo(12).FaceName("Menlo"));
 #elif __WXGTK__
-    wxFont font(wxFontInfo(10).FaceName("Courier New"));
+    wxFont font(wxFontInfo(9).FaceName("Roboto Mono"));
 #else
     wxFont font(wxFontInfo(9).FaceName("Consolas"));
 #endif
