@@ -22,6 +22,15 @@
 		7888CE991BF12D7F009D7F80 /* libwx_osx_cocoau-3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7888CE981BF12D7F009D7F80 /* libwx_osx_cocoau-3.0.a */; };
 		7888CE9D1BF12DF8009D7F80 /* project_frame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7888CE9B1BF12DF8009D7F80 /* project_frame.cpp */; };
 		7888CE9F1BF12E49009D7F80 /* ftk_platform_osx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7888CE9E1BF12E49009D7F80 /* ftk_platform_osx.cpp */; };
+		7888CEA21BF3D5CA009D7F80 /* command_bar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7888CEA01BF3D5CA009D7F80 /* command_bar.cpp */; };
+		78995AD41BF4661D004D903A /* api.c in Sources */ = {isa = PBXBuildFile; fileRef = 78995ACB1BF4661D004D903A /* api.c */; };
+		78995AD51BF4661D004D903A /* dumper.c in Sources */ = {isa = PBXBuildFile; fileRef = 78995ACC1BF4661D004D903A /* dumper.c */; };
+		78995AD61BF4661D004D903A /* emitter.c in Sources */ = {isa = PBXBuildFile; fileRef = 78995ACD1BF4661D004D903A /* emitter.c */; };
+		78995AD71BF4661D004D903A /* loader.c in Sources */ = {isa = PBXBuildFile; fileRef = 78995ACE1BF4661D004D903A /* loader.c */; };
+		78995AD81BF4661D004D903A /* parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 78995ACF1BF4661D004D903A /* parser.c */; };
+		78995AD91BF4661D004D903A /* reader.c in Sources */ = {isa = PBXBuildFile; fileRef = 78995AD01BF4661D004D903A /* reader.c */; };
+		78995ADA1BF4661D004D903A /* scanner.c in Sources */ = {isa = PBXBuildFile; fileRef = 78995AD11BF4661D004D903A /* scanner.c */; };
+		78995ADB1BF4661D004D903A /* writer.c in Sources */ = {isa = PBXBuildFile; fileRef = 78995AD21BF4661D004D903A /* writer.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +52,17 @@
 		7888CE9B1BF12DF8009D7F80 /* project_frame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = project_frame.cpp; path = ../../project_frame.cpp; sourceTree = "<group>"; };
 		7888CE9C1BF12DF8009D7F80 /* project_frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = project_frame.h; path = ../../project_frame.h; sourceTree = "<group>"; };
 		7888CE9E1BF12E49009D7F80 /* ftk_platform_osx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ftk_platform_osx.cpp; path = ../../ftk_platform_osx.cpp; sourceTree = "<group>"; };
+		7888CEA01BF3D5CA009D7F80 /* command_bar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = command_bar.cpp; path = ../../command_bar.cpp; sourceTree = "<group>"; };
+		7888CEA11BF3D5CA009D7F80 /* command_bar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = command_bar.h; path = ../../command_bar.h; sourceTree = "<group>"; };
+		78995ACB1BF4661D004D903A /* api.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = api.c; path = ../../../third_party/yaml/src/api.c; sourceTree = "<group>"; };
+		78995ACC1BF4661D004D903A /* dumper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = dumper.c; path = ../../../third_party/yaml/src/dumper.c; sourceTree = "<group>"; };
+		78995ACD1BF4661D004D903A /* emitter.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = emitter.c; path = ../../../third_party/yaml/src/emitter.c; sourceTree = "<group>"; };
+		78995ACE1BF4661D004D903A /* loader.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = loader.c; path = ../../../third_party/yaml/src/loader.c; sourceTree = "<group>"; };
+		78995ACF1BF4661D004D903A /* parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = parser.c; path = ../../../third_party/yaml/src/parser.c; sourceTree = "<group>"; };
+		78995AD01BF4661D004D903A /* reader.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = reader.c; path = ../../../third_party/yaml/src/reader.c; sourceTree = "<group>"; };
+		78995AD11BF4661D004D903A /* scanner.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = scanner.c; path = ../../../third_party/yaml/src/scanner.c; sourceTree = "<group>"; };
+		78995AD21BF4661D004D903A /* writer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = writer.c; path = ../../../third_party/yaml/src/writer.c; sourceTree = "<group>"; };
+		78995AD31BF4661D004D903A /* yaml_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yaml_private.h; path = ../../../third_party/yaml/src/yaml_private.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +104,9 @@
 		782D3EF51BDA8A6000645D6C /* Flutter ToolKit */ = {
 			isa = PBXGroup;
 			children = (
+				78995ACA1BF46608004D903A /* yaml */,
+				7888CEA01BF3D5CA009D7F80 /* command_bar.cpp */,
+				7888CEA11BF3D5CA009D7F80 /* command_bar.h */,
 				7888CE9E1BF12E49009D7F80 /* ftk_platform_osx.cpp */,
 				7888CE9A1BF12DF8009D7F80 /* ftk_platform.h */,
 				7888CE9B1BF12DF8009D7F80 /* project_frame.cpp */,
@@ -117,6 +140,22 @@
 				7888CE921BEBDA8F009D7F80 /* wxrelease.xcconfig */,
 			);
 			name = configs;
+			sourceTree = "<group>";
+		};
+		78995ACA1BF46608004D903A /* yaml */ = {
+			isa = PBXGroup;
+			children = (
+				78995ACB1BF4661D004D903A /* api.c */,
+				78995ACC1BF4661D004D903A /* dumper.c */,
+				78995ACD1BF4661D004D903A /* emitter.c */,
+				78995ACE1BF4661D004D903A /* loader.c */,
+				78995ACF1BF4661D004D903A /* parser.c */,
+				78995AD01BF4661D004D903A /* reader.c */,
+				78995AD11BF4661D004D903A /* scanner.c */,
+				78995AD21BF4661D004D903A /* writer.c */,
+				78995AD31BF4661D004D903A /* yaml_private.h */,
+			);
+			name = yaml;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,9 +230,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78995AD71BF4661D004D903A /* loader.c in Sources */,
 				7888CE9F1BF12E49009D7F80 /* ftk_platform_osx.cpp in Sources */,
 				7888CE8F1BEACCE6009D7F80 /* main.cpp in Sources */,
+				78995ADA1BF4661D004D903A /* scanner.c in Sources */,
+				78995AD41BF4661D004D903A /* api.c in Sources */,
+				78995AD81BF4661D004D903A /* parser.c in Sources */,
 				7888CE9D1BF12DF8009D7F80 /* project_frame.cpp in Sources */,
+				78995AD51BF4661D004D903A /* dumper.c in Sources */,
+				78995AD61BF4661D004D903A /* emitter.c in Sources */,
+				78995AD91BF4661D004D903A /* reader.c in Sources */,
+				78995ADB1BF4661D004D903A /* writer.c in Sources */,
+				7888CEA21BF3D5CA009D7F80 /* command_bar.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,7 +271,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -237,6 +285,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(WXBUILDDIR)",
 					"$(WXROOT)/include",
+					../../third_party/yaml/include,
 				);
 				LIBRARY_SEARCH_PATHS = "$(WXROOT)/build-debug/lib";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
@@ -270,7 +319,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = __WXOSX_COCOA__;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -282,6 +331,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(WXBUILDDIR)",
 					"$(WXROOT)/include",
+					../../third_party/yaml/include,
 				);
 				LIBRARY_SEARCH_PATHS = "$(WXROOT)/build-release/lib";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
@@ -316,7 +366,10 @@
 					"wxUSE_UNICODE_UTF8=0",
 					"wxUSE_UNICODE_WCHAR=1",
 				);
-				HEADER_SEARCH_PATHS = "$(WXBUILDDIR)";
+				HEADER_SEARCH_PATHS = (
+					"$(WXBUILDDIR)",
+					../../third_party/yaml/include,
+				);
 				INFOPLIST_FILE = "Flutter ToolKit/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -373,7 +426,10 @@
 					"wxUSE_UNICODE_UTF8=0",
 					"wxUSE_UNICODE_WCHAR=1",
 				);
-				HEADER_SEARCH_PATHS = "$(WXBUILDDIR)";
+				HEADER_SEARCH_PATHS = (
+					"$(WXBUILDDIR)",
+					../../third_party/yaml/include,
+				);
 				INFOPLIST_FILE = "Flutter ToolKit/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
