@@ -5,7 +5,7 @@
 
 #include "ftk_platform.h"
 #include "project_frame.h"
-
+#include "settings.h"
 
   // -----------------------------------------------------------------------
 
@@ -17,6 +17,9 @@
     virtual ~ToolkitApp();
 
     virtual bool OnInit();
+
+  private:
+    ftk::Settings*  _settings;
   };
 
   wxIMPLEMENT_APP(ToolkitApp);
@@ -24,11 +27,12 @@
 
   ToolkitApp::ToolkitApp()
   {
+    _settings = new ftk::Settings("");
   }
 
   ToolkitApp::~ToolkitApp()
   {
-
+    delete _settings;
   }
 
   bool ToolkitApp::OnInit()

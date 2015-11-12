@@ -28,6 +28,7 @@ set ( SOURCES
   ../command_bar.cpp
   ../ftk_platform_linux.cpp
   ../project_frame.cpp
+  ../settings.cpp
 )
 
 file (GLOB YAML_SOURCES ../../third_party/yaml/src/*.c)
