@@ -22,6 +22,7 @@ namespace ftk {
   };
 
   wxBEGIN_EVENT_TABLE(ProjectFrame, wxFrame)
+    EVT_MENU(MENU_NewProject, ProjectFrame::OnNewProject)
     EVT_MENU(wxID_OPEN, ProjectFrame::OnOpen)
     EVT_MENU(wxID_EXIT, ProjectFrame::OnExit)
     EVT_MENU(wxID_ABOUT, ProjectFrame::OnAbout)
@@ -153,6 +154,14 @@ namespace ftk {
   {
     wxMessageBox("Flutter ToolKit 1.0.1",
       "About Flutter ToolKit", wxOK | wxICON_INFORMATION);
+  }
+
+  void ProjectFrame::OnNewProject(wxCommandEvent& event)
+  {
+    // TODO : show a new project wizard here
+
+    ProjectFrame *frame = new ProjectFrame("Flutter ToolKit - Untitled", wxPoint(50, 50), wxSize(1024, 768));
+    frame->Show(true);
   }
 
   void ProjectFrame::OnOpen(wxCommandEvent& event)

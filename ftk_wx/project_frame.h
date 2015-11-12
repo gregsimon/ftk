@@ -18,8 +18,8 @@ namespace ftk {
     ~ProjectFrame();
 
 
-
   private:
+    void OnNewProject(wxCommandEvent& event);
     void OnOpen(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
     void OnDebugStart(wxCommandEvent& event);
