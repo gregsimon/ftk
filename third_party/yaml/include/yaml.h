@@ -11,6 +11,12 @@
 #ifndef YAML_H
 #define YAML_H
 
+#define YAML_DECLARE_STATIC
+#define YAML_VERSION_STRING "Yaml 0.1.5"
+#define YAML_VERSION_MAJOR 0
+#define YAML_VERSION_MINOR 1
+#define YAML_VERSION_PATCH 5
+
 #ifdef __cplusplus
 extern "C" {
 #endif

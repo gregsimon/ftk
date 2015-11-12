@@ -3,6 +3,8 @@
 #include <config.h>
 #endif
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <yaml.h>
 
 #include <assert.h>
