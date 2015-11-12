@@ -35,4 +35,13 @@ wxWidgets/build-release/lib/*.a
 4. Open `ftk_wx/osx/Flutter ToolKit.xcodeproj'
 5. Cmd + B to build.
 
+## Building on Linux
+
+1. cd to the 'ftk' folder (the one you checked out)
+2. `python tools/build_wxwidgets.py`
+3. cd to ftk/ftk_wx/linux
+4. cmake .
+5. make
+ 
+
 
