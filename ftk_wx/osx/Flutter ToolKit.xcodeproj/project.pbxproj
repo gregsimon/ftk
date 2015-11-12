@@ -31,6 +31,7 @@
 		78995AD91BF4661D004D903A /* reader.c in Sources */ = {isa = PBXBuildFile; fileRef = 78995AD01BF4661D004D903A /* reader.c */; };
 		78995ADA1BF4661D004D903A /* scanner.c in Sources */ = {isa = PBXBuildFile; fileRef = 78995AD11BF4661D004D903A /* scanner.c */; };
 		78995ADB1BF4661D004D903A /* writer.c in Sources */ = {isa = PBXBuildFile; fileRef = 78995AD21BF4661D004D903A /* writer.c */; };
+		78995ADD1BF5504F004D903A /* settings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78995ADC1BF5504F004D903A /* settings.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +64,7 @@
 		78995AD11BF4661D004D903A /* scanner.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = scanner.c; path = ../../../third_party/yaml/src/scanner.c; sourceTree = "<group>"; };
 		78995AD21BF4661D004D903A /* writer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = writer.c; path = ../../../third_party/yaml/src/writer.c; sourceTree = "<group>"; };
 		78995AD31BF4661D004D903A /* yaml_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yaml_private.h; path = ../../../third_party/yaml/src/yaml_private.h; sourceTree = "<group>"; };
+		78995ADC1BF5504F004D903A /* settings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = settings.cpp; path = ../../settings.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 		782D3EF51BDA8A6000645D6C /* Flutter ToolKit */ = {
 			isa = PBXGroup;
 			children = (
+				78995ADC1BF5504F004D903A /* settings.cpp */,
 				78995ACA1BF46608004D903A /* yaml */,
 				7888CEA01BF3D5CA009D7F80 /* command_bar.cpp */,
 				7888CEA11BF3D5CA009D7F80 /* command_bar.h */,
@@ -233,6 +236,7 @@
 				78995AD71BF4661D004D903A /* loader.c in Sources */,
 				7888CE9F1BF12E49009D7F80 /* ftk_platform_osx.cpp in Sources */,
 				7888CE8F1BEACCE6009D7F80 /* main.cpp in Sources */,
+				78995ADD1BF5504F004D903A /* settings.cpp in Sources */,
 				78995ADA1BF4661D004D903A /* scanner.c in Sources */,
 				78995AD41BF4661D004D903A /* api.c in Sources */,
 				78995AD81BF4661D004D903A /* parser.c in Sources */,

@@ -4,9 +4,9 @@
 #include "settings.h"
 #include "ftk_platform.h"
 
-#include <wx/filename.h>
-#include <wx/stdpaths.h>
-#include <wx/dir.h>
+#include "wx/filename.h"
+#include "wx/stdpaths.h"
+#include "wx/dir.h"
 
 
 namespace ftk 

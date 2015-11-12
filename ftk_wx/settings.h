@@ -1,7 +1,7 @@
 #ifndef __settings_h__
 #define __settings_h__
 
-#include <wx/fileconf.h>
+#include "wx/fileconf.h"
 
 namespace ftk 
 {
