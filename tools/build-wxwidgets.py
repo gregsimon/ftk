@@ -20,18 +20,18 @@ def install_and_build_wxwidgets():
 
 
 def build_posix():
-  p = subprocess.Popen(['sudo', 'apt-get', 'install', 'libgtk2.0-dev']);
-  p.wait();
+  p = subprocess.Popen(['sudo', 'apt-get', 'install', 'libgtk2.0-dev', 'libglw1-mesa', 'libglw1-mesa-dev', 'libglu1-mesa-dev'])
+  p.wait()
 
   make_sure_path_exists("third_party/wxWidgets/build-debug")
-  p = subprocess.Popen(['../configure', '-disable-shared', '--enable-monolithic', '--enable-debug', '--with-libpng'], \
+  p = subprocess.Popen(['../configure', '-disable-shared', '--enable-monolithic', '--enable-debug', '--with-opengl', '--with-libpng'], \
         cwd=r'third_party/wxWidgets/build-debug/')
   p.wait()
   p = subprocess.Popen(['make', '-j4'], cwd=r'third_party/wxWidgets/build-debug/')
   p.wait()
 
   make_sure_path_exists("third_party/wxWidgets/build-release")
-  p = subprocess.Popen(['../configure', '-disable-shared', '--enable-monolithic', '--with-libpng'], \
+  p = subprocess.Popen(['../configure', '-disable-shared', '--enable-monolithic', '--with-opengl', '--with-libpng'], \
         cwd=r'third_party/wxWidgets/build-release/')
   p.wait()
   p = subprocess.Popen(['make', '-j4'], cwd=r'third_party/wxWidgets/build-release/')
