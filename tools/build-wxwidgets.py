@@ -20,6 +20,9 @@ def install_and_build_wxwidgets():
 
 
 def build_posix():
+  p = subprocess.Popen(['sudo', 'apt-get', 'install', 'libgtk2.0-dev']);
+  p.wait();
+
   make_sure_path_exists("third_party/wxWidgets/build-debug")
   p = subprocess.Popen(['../configure', '-disable-shared', '--enable-monolithic', '--enable-debug', '--with-libpng'], \
         cwd=r'third_party/wxWidgets/build-debug/')
