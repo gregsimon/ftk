@@ -24,11 +24,11 @@ add_definitions(-DWX_PRECOMP)
 
 
 set ( SOURCES
-  ../main.cpp
-  ../command_bar.cpp
-  ../ftk_platform_linux.cpp
-  ../project_frame.cpp
-  ../settings.cpp
+  ../../src/main.cpp
+  ../../src/linux/ftk_platform_linux.cpp
+  ../../src/command_bar.cpp
+  ../../src/project_frame.cpp
+  ../../src/settings.cpp
 )
 
 file (GLOB YAML_SOURCES ../../third_party/yaml/src/*.c)
