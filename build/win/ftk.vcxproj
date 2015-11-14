@@ -19,57 +19,58 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\adb\ftk-adb-usb-win.cpp" />
-    <ClCompile Include="..\adb\ftk-adb.cpp" />
-    <ClCompile Include="..\third_party\yaml\src\api.c">
+    <ClCompile Include="..\..\adb\ftk-adb-usb-win.cpp" />
+    <ClCompile Include="..\..\adb\ftk-adb.cpp" />
+    <ClCompile Include="..\..\src\settings.cpp" />
+    <ClCompile Include="..\..\third_party\yaml\src\api.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../third_party/yaml/include;../third_party/wxWidgets/include;../third_party/wxWidgets/include/msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../third_party/yaml/include;../../third_party/wxWidgets/include;../../third_party/wxWidgets/include/msvc</AdditionalIncludeDirectories>
     </ClCompile>
-    <ClCompile Include="..\third_party\yaml\src\dumper.c">
+    <ClCompile Include="..\..\third_party\yaml\src\dumper.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../third_party/yaml/include;../third_party/wxWidgets/include;../third_party/wxWidgets/include/msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../third_party/yaml/include;../../third_party/wxWidgets/include;../../third_party/wxWidgets/include/msvc</AdditionalIncludeDirectories>
     </ClCompile>
-    <ClCompile Include="..\third_party\yaml\src\emitter.c">
+    <ClCompile Include="..\..\third_party\yaml\src\emitter.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../third_party/yaml/include;../third_party/wxWidgets/include;../third_party/wxWidgets/include/msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../third_party/yaml/include;../../third_party/wxWidgets/include;../../third_party/wxWidgets/include/msvc</AdditionalIncludeDirectories>
     </ClCompile>
-    <ClCompile Include="..\third_party\yaml\src\loader.c">
+    <ClCompile Include="..\..\third_party\yaml\src\loader.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../third_party/yaml/include;../third_party/wxWidgets/include;../third_party/wxWidgets/include/msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../third_party/yaml/include;../../third_party/wxWidgets/include;../../third_party/wxWidgets/include/msvc</AdditionalIncludeDirectories>
     </ClCompile>
-    <ClCompile Include="..\third_party\yaml\src\parser.c">
+    <ClCompile Include="..\..\third_party\yaml\src\parser.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../third_party/yaml/include;../third_party/wxWidgets/include;../third_party/wxWidgets/include/msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../third_party/yaml/include;../../third_party/wxWidgets/include;../../third_party/wxWidgets/include/msvc</AdditionalIncludeDirectories>
     </ClCompile>
-    <ClCompile Include="..\third_party\yaml\src\reader.c">
+    <ClCompile Include="..\..\third_party\yaml\src\reader.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../third_party/yaml/include;../third_party/wxWidgets/include;../third_party/wxWidgets/include/msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../third_party/yaml/include;../../third_party/wxWidgets/include;../../third_party/wxWidgets/include/msvc</AdditionalIncludeDirectories>
     </ClCompile>
-    <ClCompile Include="..\third_party\yaml\src\scanner.c">
+    <ClCompile Include="..\..\third_party\yaml\src\scanner.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../third_party/yaml/include;../third_party/wxWidgets/include;../third_party/wxWidgets/include/msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../third_party/yaml/include;../../third_party/wxWidgets/include;../../third_party/wxWidgets/include/msvc</AdditionalIncludeDirectories>
     </ClCompile>
-    <ClCompile Include="..\third_party\yaml\src\writer.c">
+    <ClCompile Include="..\..\third_party\yaml\src\writer.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../third_party/yaml/include;../third_party/wxWidgets/include;../third_party/wxWidgets/include/msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../third_party/yaml/include;../../third_party/wxWidgets/include;../../third_party/wxWidgets/include/msvc</AdditionalIncludeDirectories>
     </ClCompile>
-    <ClCompile Include="command_bar.cpp" />
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="..\..\src\command_bar.cpp" />
+    <ClCompile Include="..\..\src\main.cpp">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">wx/wxprec.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="ftk_platform_win.cpp" />
-    <ClCompile Include="project_frame.cpp" />
-    <ClCompile Include="wxprec.cpp">
+    <ClCompile Include="..\..\src\win\ftk_platform_win.cpp" />
+    <ClCompile Include="..\..\src\project_frame.cpp" />
+    <ClCompile Include="..\..\src\win\wxprec.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -77,15 +78,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\adb\ftk-adb-usb.h" />
-    <ClInclude Include="..\third_party\yaml\src\yaml_private.h" />
-    <ClInclude Include="command_bar.h" />
-    <ClInclude Include="ftk_platform.h" />
-    <ClInclude Include="ftk_resource.h" />
-    <ClInclude Include="project_frame.h" />
+    <ClInclude Include="..\..\adb\ftk-adb-usb.h" />
+    <ClInclude Include="..\..\src\settings.h" />
+    <ClInclude Include="..\..\third_party\yaml\src\yaml_private.h" />
+    <ClInclude Include="..\..\src\command_bar.h" />
+    <ClInclude Include="..\..\src\win\ftk_platform.h" />
+    <ClInclude Include="..\..\src\ftk_resource.h" />
+    <ClInclude Include="..\..\src\project_frame.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="ftk_win.rc" />
+    <ResourceCompile Include="..\..\src\win\ftk_win.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E6F51107-AA08-4555-927E-29CD6DD5B4B7}</ProjectGuid>
@@ -157,12 +159,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../wxWidgets-3.0.2/include;../wxWidgets-3.0.2/include/msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../wxWidgets-3.0.2/include;../../wxWidgets-3.0.2/include/msvc</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\wxWidgets-3.0.2\lib\vc_x64_lib\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\wxWidgets-3.0.2\lib\vc_x64_lib\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -171,14 +173,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../third_party/yaml/include;../third_party/wxWidgets/include/msvc;../third_party/wxWidgets/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../third_party/yaml/include;../../third_party/wxWidgets/include/msvc;../../third_party/wxWidgets/include</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PrecompiledHeaderFile>wx/wxprec.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\third_party\wxWidgets\lib\vc_x64_lib\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\third_party\wxWidgets\lib\vc_x64_lib\</AdditionalLibraryDirectories>
       <AdditionalDependencies>winusb.lib;Setupapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -191,14 +193,16 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../wxWidgets-3.0.2/include;../wxWidgets-3.0.2/include/msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\wxWidgets-3.0.2\lib\vc_x64_lib\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -209,7 +213,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../third_party/yaml/include;../third_party/wxWidgets/include;../third_party/wxWidgets/include/msvc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../third_party/yaml/include;../../third_party/wxWidgets/include;../../third_party/wxWidgets/include/msvc</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>wx/wxprec.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -218,7 +222,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\third_party\wxWidgets\lib\vc_x64_lib\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\third_party\wxWidgets\lib\vc_x64_lib\</AdditionalLibraryDirectories>
       <AdditionalDependencies>winusb.lib;Setupapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
