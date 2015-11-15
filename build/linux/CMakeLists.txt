@@ -29,6 +29,7 @@ set ( SOURCES
   ../../src/command_bar.cpp
   ../../src/project_frame.cpp
   ../../src/settings.cpp
+  ../../src/project.cpp
 )
 
 file (GLOB YAML_SOURCES ../../third_party/yaml/src/*.c)
