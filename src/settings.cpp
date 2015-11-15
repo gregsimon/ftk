@@ -8,6 +8,7 @@
 #include "wx/stdpaths.h"
 #include "wx/dir.h"
 
+#include "../third_party/yaml/include/yaml.h"
 
 namespace ftk 
 {
@@ -31,13 +32,79 @@ Settings::Settings(const wxString& path)
   }
 
   settings_path.SetName("settings");
+  _settings_path = settings_path.GetFullPath();
 
-  wxLogMessage("settings path -> %s", settings_path.GetFullPath());
-
+  wxLogDebug("settings path -> %s", _settings_path);
+  
+  load();
 }
 
 Settings::~Settings()
 {
+}
+
+// Settings file is YAML
+int Settings::load()
+{
+  // -- Load a new project
+  yaml_parser_t parser;
+  yaml_token_t  token;
+  int done = 0;
+  FILE *input;
+
+  yaml_parser_initialize(&parser);
+
+  if ((input = fopen(_settings_path, "rb")))
+  {
+    yaml_parser_set_input_file(&parser, input);
+    int last_token_type = -1;
+    wxString last_token_name;
+
+    do {
+      yaml_parser_scan(&parser, &token);
+      switch (token.type)
+      {
+      case YAML_VALUE_TOKEN:
+      case YAML_KEY_TOKEN:
+        last_token_type = token.type;
+        break;
+
+      case YAML_SCALAR_TOKEN:
+        if (last_token_type == YAML_KEY_TOKEN)
+          last_token_name = (const char*)token.data.scalar.value;
+        else {
+          wxLogDebug("%s = %s",
+            (const char*)last_token_name,
+            (const char*)token.data.scalar.value);
+          if (!last_token_name.Cmp("sdk_path"))
+            _sdk_path = (const char*)token.data.scalar.value;
+          else if (!last_token_name.Cmp("dart_path"))
+            _dart_path = (const char*)token.data.scalar.value;
+          last_token_name.clear();
+        }
+        break;
+      }
+
+      if (token.type != YAML_STREAM_END_TOKEN)
+        yaml_token_delete(&token);
+
+    } while (token.type != YAML_STREAM_END_TOKEN);
+
+
+    fclose(input);
+  }
+  else {
+    wxLogError("settings failed to open");
+    return -1;
+  }
+
+  yaml_parser_delete(&parser);
+  return -0;
+}
+
+int Settings::save()
+{
+  return -1;
 }
 
 } // namespace ftk
