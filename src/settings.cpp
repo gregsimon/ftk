@@ -49,7 +49,6 @@ int Settings::load()
   // -- Load a new project
   yaml_parser_t parser;
   yaml_token_t  token;
-  int done = 0;
   FILE *input;
 
   yaml_parser_initialize(&parser);
@@ -83,6 +82,8 @@ int Settings::load()
           last_token_name.clear();
         }
         break;
+        default:
+          wxLogDebug("Unhandled yaml token %d", token.type);
       }
 
       if (token.type != YAML_STREAM_END_TOKEN)
