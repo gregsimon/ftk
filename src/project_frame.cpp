@@ -1,6 +1,7 @@
 
 #include "wx/wxprec.h"
 #include "wx/filedlg.h"
+#include "wx/preferences.h"
 
 #include "project_frame.h"
 #include "command_bar.h"
@@ -16,6 +17,7 @@ namespace ftk {
     MENU_NewProject,
     MENU_SDKManager,
     MENU_Devices,
+    MENU_Preferences,
 
     TEXT_Main,
     PROJECT_List,
@@ -26,6 +28,7 @@ namespace ftk {
   wxBEGIN_EVENT_TABLE(ProjectFrame, wxFrame)
     EVT_MENU(MENU_NewProject, ProjectFrame::OnNewProject)
     EVT_MENU(wxID_OPEN, ProjectFrame::OnOpen)
+    EVT_MENU(MENU_Preferences, ProjectFrame::OnPrefs)
     EVT_MENU(wxID_EXIT, ProjectFrame::OnExit)
     EVT_MENU(wxID_ABOUT, ProjectFrame::OnAbout)
     EVT_MENU(wxID_SAVE, ProjectFrame::OnSave)
@@ -46,6 +49,9 @@ namespace ftk {
     menuFile->AppendSeparator();
     menuFile->Append(wxID_OPEN, "&Open...\tCtrl-O",
       "Open file");
+    menuFile->AppendSeparator();
+    menuFile->Append(MENU_Preferences, "Settings...",
+      "Settings");
     menuFile->AppendSeparator();
     menuFile->Append(wxID_EXIT);
 
@@ -164,6 +170,18 @@ namespace ftk {
 
     ProjectFrame *frame = new ProjectFrame("Flutter ToolKit - Untitled", wxPoint(50, 50), wxSize(1024, 768));
     frame->Show(true);
+  }
+
+  void ProjectFrame::OnPrefs(wxCommandEvent& event)
+  {
+    wxPreferencesEditor dlg("Flutter ToolKit Settings");
+
+    //wxPreferencesPage page_general
+
+    //dlg.AddPage(&page_general);
+    dlg.Show(this);
+
+    
   }
 
   void ProjectFrame::OnOpen(wxCommandEvent& event)

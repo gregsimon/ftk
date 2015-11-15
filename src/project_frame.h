@@ -26,6 +26,7 @@ namespace ftk {
     void OnAbout(wxCommandEvent& event);
     void OnSave(wxCommandEvent& event);
     void OnSaveAs(wxCommandEvent& event);
+    void OnPrefs(wxCommandEvent& event);
     wxDECLARE_EVENT_TABLE();
 
     wxListCtrl* _project_list_ctl;
