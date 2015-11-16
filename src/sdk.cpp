@@ -6,7 +6,7 @@
 #include <wx/filename.h>
 #include <wx/dir.h>
 
-#nclude "../third_party/yaml/include/yaml.h"
+#include "../third_party/yaml/include/yaml.h"
 
 namespace ftk
 {
@@ -47,12 +47,12 @@ namespace ftk
     bool cont = packages_dir.GetFirst(&filename, wxEmptyString, wxDIR_DIRS);
     while (cont) {
       wxFileName package_fn(packages_path);
-      package_fn.AppendDir(package_fn);
+      package_fn.AppendDir(filename);
 
       Sdk::Package p(package_fn.GetFullPath());
       p.name = filename;
 
-      wxLogDebug(" package: %s", (const char*)filename);
+      //wxLogDebug(" package: %s", (const char*)filename);
 
       
 
@@ -73,6 +73,48 @@ namespace ftk
     // to collect data from it and make a final decision
     // parse 
 
+    // Parse the pubspec.yaml file
+    wxFileName yamlpath(fn);
+    yamlpath.SetName("pubspec.yaml");
+    if (FILE *f = fopen((const char*)yamlpath.GetFullPath(), "r"))
+    {
+      yaml_parser_t parser;
+      yaml_event_t  event;
+      yaml_parser_initialize(&parser);
+      yaml_parser_set_input_file(&parser, f);
+
+      do {
+        if (!yaml_parser_parse(&parser, &event)) {
+          wxLogDebug("Parser error %d\n", parser.error);
+        }
+
+        switch (event.type)
+        {
+        case YAML_NO_EVENT: wxLogDebug("No event!"); break;
+          /* Stream start/end */
+        case YAML_STREAM_START_EVENT: wxLogDebug("STREAM START"); break;
+        case YAML_STREAM_END_EVENT:   wxLogDebug("STREAM END");   break;
+          /* Block delimeters */
+        case YAML_DOCUMENT_START_EVENT: wxLogDebug("<b>Start Document</b>"); break;
+        case YAML_DOCUMENT_END_EVENT:   wxLogDebug("<b>End Document</b>");   break;
+        case YAML_SEQUENCE_START_EVENT: wxLogDebug("<b>Start Sequence</b>"); break;
+        case YAML_SEQUENCE_END_EVENT:   wxLogDebug("<b>End Sequence</b>");   break;
+        case YAML_MAPPING_START_EVENT:  wxLogDebug("<b>Start Mapping</b>");  break;
+        case YAML_MAPPING_END_EVENT:    wxLogDebug("<b>End Mapping</b>");    break;
+          /* Data */
+        case YAML_ALIAS_EVENT:  wxLogDebug("Got alias (anchor %s)", (const char*)event.data.alias.anchor); break;
+        case YAML_SCALAR_EVENT: 
+          wxLogDebug("Got scalar (value %s)", (const char*)event.data.scalar.value); break;
+        }
+        if (event.type != YAML_STREAM_END_EVENT)
+          yaml_event_delete(&event);
+      } while (event.type != YAML_STREAM_END_EVENT);
+      yaml_event_delete(&event);
+
+
+      yaml_parser_delete(&parser);
+      fclose(f);
+    }
 
   }
 
