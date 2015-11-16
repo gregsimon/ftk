@@ -5,6 +5,7 @@
 
 #include <wx/filename.h>
 #include <wx/dir.h>
+#include <stack>
 
 #include "../third_party/yaml/include/yaml.h"
 
@@ -49,12 +50,9 @@ namespace ftk
       wxFileName package_fn(packages_path);
       package_fn.AppendDir(filename);
 
-      Sdk::Package p(package_fn.GetFullPath());
-      p.name = filename;
+      Package p(package_fn.GetFullPath());
 
       //wxLogDebug(" package: %s", (const char*)filename);
-
-      
 
       if (p.is_valid())
         _packages.push_back(p);
@@ -65,10 +63,8 @@ namespace ftk
     return 0;
   }
 
-  Sdk::Package::Package(const wxFileName& fn)
+  Package::Package(const wxFileName& fn)
   {
-    wxLogDebug("TODO : Load package from [%s]", (const char*)fn.GetFullPath());
-
     // This folder may *not* be a package, but we'll attempt
     // to collect data from it and make a final decision
     // parse 
@@ -79,48 +75,57 @@ namespace ftk
     if (FILE *f = fopen((const char*)yamlpath.GetFullPath(), "r"))
     {
       yaml_parser_t parser;
-      yaml_event_t  event;
       yaml_parser_initialize(&parser);
       yaml_parser_set_input_file(&parser, f);
 
-      do {
-        if (!yaml_parser_parse(&parser, &event)) {
-          wxLogDebug("Parser error %d\n", parser.error);
+      yaml_document_t doc;
+      yaml_parser_load(&parser, &doc);
+      yaml_node_t* root_node = yaml_document_get_root_node(&doc);
+
+      for (yaml_node_pair_t * i = root_node->data.mapping.pairs.start; i < root_node->data.mapping.pairs.top; ++i)
+      {
+        yaml_node_t * key = yaml_document_get_node(&doc, i->key);
+        yaml_node_t * value = yaml_document_get_node(&doc, i->value);
+
+        if (value->type == YAML_MAPPING_NODE) {
+          for (yaml_node_pair_t * j = value->data.mapping.pairs.start; j < value->data.mapping.pairs.top; ++j)
+          {
+            yaml_node_t * key2 = yaml_document_get_node(&doc, j->key);
+            yaml_node_t * value2 = yaml_document_get_node(&doc, j->value);
+
+            if (!strcmp((const char*)key->data.scalar.value, "dependencies"))
+              dependencies[(const char*)key2->data.scalar.value] = (const char*)value2->data.scalar.value;
+            else if (!strcmp((const char*)key->data.scalar.value, "env"))
+              env[(const char*)key2->data.scalar.value] = (const char*)value2->data.scalar.value;
+          }
         }
-
-        switch (event.type)
-        {
-        case YAML_NO_EVENT: wxLogDebug("No event!"); break;
-          /* Stream start/end */
-        case YAML_STREAM_START_EVENT: wxLogDebug("STREAM START"); break;
-        case YAML_STREAM_END_EVENT:   wxLogDebug("STREAM END");   break;
-          /* Block delimeters */
-        case YAML_DOCUMENT_START_EVENT: wxLogDebug("<b>Start Document</b>"); break;
-        case YAML_DOCUMENT_END_EVENT:   wxLogDebug("<b>End Document</b>");   break;
-        case YAML_SEQUENCE_START_EVENT: wxLogDebug("<b>Start Sequence</b>"); break;
-        case YAML_SEQUENCE_END_EVENT:   wxLogDebug("<b>End Sequence</b>");   break;
-        case YAML_MAPPING_START_EVENT:  wxLogDebug("<b>Start Mapping</b>");  break;
-        case YAML_MAPPING_END_EVENT:    wxLogDebug("<b>End Mapping</b>");    break;
-          /* Data */
-        case YAML_ALIAS_EVENT:  wxLogDebug("Got alias (anchor %s)", (const char*)event.data.alias.anchor); break;
-        case YAML_SCALAR_EVENT: 
-          wxLogDebug("Got scalar (value %s)", (const char*)event.data.scalar.value); break;
+        else {
+          //wxLogDebug("%s = %s", (const char*)key->data.scalar.value,
+          //  (const char*)value->data.scalar.value);
+          if (!strcmp((const char*)key->data.scalar.value, "name"))
+            name = (const char*)value->data.scalar.value;
+          else if (!strcmp((const char*)key->data.scalar.value, "author"))
+            author = (const char*)value->data.scalar.value;
+          else if (!strcmp((const char*)key->data.scalar.value, "description"))
+            description = (const char*)value->data.scalar.value;
+          else if (!strcmp((const char*)key->data.scalar.value, "version"))
+            version = (const char*)value->data.scalar.value;
+          else if (!strcmp((const char*)key->data.scalar.value, "homepage"))
+            homepage = (const char*)value->data.scalar.value;
         }
-        if (event.type != YAML_STREAM_END_EVENT)
-          yaml_event_delete(&event);
-      } while (event.type != YAML_STREAM_END_EVENT);
-      yaml_event_delete(&event);
+       
+      }
 
-
+      yaml_document_delete(&doc);
       yaml_parser_delete(&parser);
       fclose(f);
     }
 
   }
 
-  bool Sdk::Package::is_valid()
+  bool Package::is_valid()
   {
-    return version.size() > 0; // TODO
+    return name.size() > 0 && version.size() > 0; // TODO
   }
 
 }

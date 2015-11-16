@@ -38,9 +38,12 @@ Settings::Settings(const wxString& path)
 
   wxLogDebug("settings path -> %s", _settings_path);
   
-  load();
+  load();  // lload the settings file from disk
 
-  currentSDK()->load(_sdk_path);
+  currentSDK()->load(_sdk_path); // load the SDK
+
+  int ss = currentSDK()->packages().size();
+  wxLogDebug("**** %d packages available", ss);
 }
 
 Settings::~Settings()
