@@ -1,6 +1,8 @@
 
 #include "wx/wxprec.h"
 
+#include "ftk.h"
+#include "sdk.h"
 #include "settings.h"
 #include "ftk_platform.h"
 
@@ -37,6 +39,8 @@ Settings::Settings(const wxString& path)
   wxLogDebug("settings path -> %s", _settings_path);
   
   load();
+
+  currentSDK()->load(_sdk_path);
 }
 
 Settings::~Settings()

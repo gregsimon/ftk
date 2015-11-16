@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClCompile Include="..\..\adb\ftk-adb-usb-win.cpp" />
     <ClCompile Include="..\..\adb\ftk-adb.cpp" />
+    <ClCompile Include="..\..\src\project.cpp" />
+    <ClCompile Include="..\..\src\sdk.cpp" />
     <ClCompile Include="..\..\src\settings.cpp" />
     <ClCompile Include="..\..\third_party\yaml\src\api.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -79,6 +81,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\adb\ftk-adb-usb.h" />
+    <ClInclude Include="..\..\src\project.h" />
+    <ClInclude Include="..\..\src\sdk.h" />
     <ClInclude Include="..\..\src\settings.h" />
     <ClInclude Include="..\..\third_party\yaml\src\yaml_private.h" />
     <ClInclude Include="..\..\src\command_bar.h" />
