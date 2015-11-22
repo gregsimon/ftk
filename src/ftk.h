@@ -4,8 +4,8 @@
 
 namespace ftk
 {
-  class  Sdk* currentSDK();
-
+  class Sdk* currentSDK();
+  class AdbEndpoint* currentAdbEndpoint();
 }
 
 #endif
