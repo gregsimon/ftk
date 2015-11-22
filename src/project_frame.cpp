@@ -5,6 +5,7 @@
 
 #include "project_frame.h"
 #include "command_bar.h"
+#include "console.h"
 
 #include "yaml.h"
 
@@ -21,6 +22,7 @@ namespace ftk {
 
     TEXT_Main,
     PROJECT_List,
+    CONSOLE_Panel,
 
     ID_LAST
   };
@@ -87,6 +89,7 @@ namespace ftk {
     // Create the subviews
     wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
 
+
     _command_bar = new CommandBar(root_panel, wxDefaultPosition, wxSize(320, 36));
     vbox->Add(_command_bar, 0, wxEXPAND, 0);
 
@@ -136,7 +139,9 @@ namespace ftk {
     hbox->Add(_main_edit_box, 4, wxEXPAND | wxALL, 0);
 
     vbox->Add(hbox, 1, wxEXPAND | wxALL, 0);
-
+    
+    _console_ctl = new Console(root_panel, CONSOLE_Panel, wxDefaultPosition, wxSize(640, 160));
+    vbox->Add(_console_ctl, 0, wxEXPAND | wxALL, 0);
 
     root_panel->SetSizerAndFit(vbox);
   }

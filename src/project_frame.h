@@ -10,6 +10,7 @@
 namespace ftk {
 
   class CommandBar;
+  class Console;
 
   class ProjectFrame : public wxFrame
   {
@@ -32,6 +33,7 @@ namespace ftk {
     wxListCtrl* _project_list_ctl;
     wxStyledTextCtrl *_main_edit_box;
     CommandBar* _command_bar;
+    Console* _console_ctl;
   };
 
 } // namespace ftk

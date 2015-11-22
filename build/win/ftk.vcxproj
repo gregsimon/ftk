@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\adb\ftk-adb-usb-win.cpp" />
     <ClCompile Include="..\..\adb\ftk-adb.cpp" />
+    <ClCompile Include="..\..\src\console.cpp" />
     <ClCompile Include="..\..\src\project.cpp" />
     <ClCompile Include="..\..\src\sdk.cpp" />
     <ClCompile Include="..\..\src\settings.cpp" />
@@ -81,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\adb\ftk-adb-usb.h" />
+    <ClInclude Include="..\..\src\console.h" />
     <ClInclude Include="..\..\src\project.h" />
     <ClInclude Include="..\..\src\sdk.h" />
     <ClInclude Include="..\..\src\settings.h" />
