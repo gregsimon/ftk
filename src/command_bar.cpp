@@ -17,8 +17,8 @@ namespace ftk {
     currentAdbEndpoint()->list_devices(_usb_devices);
 
 
-    _device_picker = new wxComboBox(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(128, 32),
-      wxArrayString(), wxCB_DROPDOWN | wxCB_READONLY);
+    _device_picker = new wxChoice(this, wxID_ANY, wxDefaultPosition, 
+      wxSize(128, 32));
 
     refresh_device_list();
   }

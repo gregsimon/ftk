@@ -7,7 +7,7 @@ include(cotire)
 project (ftk)
 
 include_directories(..)
-include_directories(../../adb)
+include_directories(../..)
 include_directories(../../third_party/yaml/include)
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
   include_directories(../../third_party/wxWidgets/build-debug/lib/wx/include/gtk2-unicode-static-3.0)
@@ -25,11 +25,16 @@ add_definitions(-DWX_PRECOMP)
 
 set ( SOURCES
   ../../src/main.cpp
+  ../../adb/ftk-adb.cpp
+  ../../adb/usb_endpoint_linux.cpp
   ../../src/linux/ftk_platform_linux.cpp
   ../../src/command_bar.cpp
   ../../src/project_frame.cpp
   ../../src/settings.cpp
   ../../src/project.cpp
+  ../../src/console.cpp
+  ../../src/sdk.cpp
+
 )
 
 file (GLOB YAML_SOURCES ../../third_party/yaml/src/*.c)
