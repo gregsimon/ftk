@@ -75,13 +75,16 @@ namespace ftk {
         AdbDevice new_device;
         unsigned char data[42];
         unsigned char str[256];
+        bool might_be_device = false;
 
         new_device.addr_out = new_device.addr_in = 0;
 
 
         if (desc.iProduct) {
           if (libusb_get_string_descriptor_ascii(h, desc.iProduct, str, 255) > 0) {
-            log("name %s  %d configs\n", (char*)str, (int)desc.bNumConfigurations);
+            log("name %s  %d config(s)\n", (char*)str, (int)desc.bNumConfigurations);
+            if (strstr((const char*)str, "Nexus"))
+              might_be_device = true;
             mbstowcs(new_device.device_name, (const char*)str, kMaxFilePath);
           }
         }
@@ -92,30 +95,33 @@ namespace ftk {
 
             for (int i=0; i<config->bNumInterfaces; ++i) {
               const libusb_interface_descriptor* iface = config->interface[i].altsetting;
+
+              // try and get the interface name. There may not be one, in which case
+              // we should double-check the device name for "Nexus"
               if (iface->iInterface) {
                 if (libusb_get_string_descriptor_ascii(h, iface->iInterface, str, 255) > 0) {
-                  
                   if (strstr((const char*)str, "ADB Interface")) {
                     log("[%s]\n", (char*)str);
-
-                    // now pull the endpoints out of iface->endpoint
-                    for (int e=0; e<iface->bNumEndpoints; ++e) {
-                      const libusb_endpoint_descriptor& ep = iface->endpoint[e];
-                      log(" endpoint %02x addr=%02x %s bmAttributes=%02x max_size=%d\n", 
-                        ep.bDescriptorType,
-                        ep.bEndpointAddress,
-                        (ep.bEndpointAddress & 0x80) ? "IN" : "OUT",
-                        ep.bmAttributes,
-                        ep.wMaxPacketSize);
-
-                      
-                      if (ep.bEndpointAddress & 0x80)
-                        new_device.addr_in = ep.bEndpointAddress;
-                      else if (ep.bEndpointAddress & 0x80)
-                        new_device.addr_out = ep.bEndpointAddress;
-                      
-                    }
+                    might_be_device = true;
                   }
+                }
+              }
+
+              if (might_be_device) {
+                // now pull the endpoints out of iface->endpoint
+                for (int e=0; e<iface->bNumEndpoints; ++e) {
+                  const libusb_endpoint_descriptor& ep = iface->endpoint[e];
+                  log(" endpoint %02x addr=%02x %s bmAttributes=%02x max_size=%d\n",
+                    ep.bDescriptorType,
+                    ep.bEndpointAddress,
+                    (ep.bEndpointAddress & 0x80) ? "IN" : "OUT",
+                    ep.bmAttributes,
+                    ep.wMaxPacketSize);
+
+                  if (ep.bEndpointAddress & 0x80)
+                    new_device.addr_in = ep.bEndpointAddress;
+                  else if (ep.bEndpointAddress & 0x80)
+                    new_device.addr_out = ep.bEndpointAddress;
                 }
               }
             }
