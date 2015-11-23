@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\adb\ftk-adb-usb-win.cpp" />
     <ClCompile Include="..\..\adb\ftk-adb.cpp" />
+    <ClCompile Include="..\..\adb\usb_endpoint_win.cpp" />
     <ClCompile Include="..\..\src\console.cpp" />
     <ClCompile Include="..\..\src\project.cpp" />
     <ClCompile Include="..\..\src\sdk.cpp" />

@@ -36,13 +36,13 @@ namespace ftk {
     UCHAR read_endpoint_id, write_endpoint_id;
   };
 
-  UsbEndpoint::UsbEndpoint() : i(new UsbEndpointInternals)
+  UsbEndpoint::UsbEndpoint() : _i(new UsbEndpointInternals)
   {
   }
 
   UsbEndpoint::~UsbEndpoint()
   {
-    delete i;
+    delete _i;
   }
 
   void UsbEndpoint::log(const char* szFormat, ...)
@@ -198,23 +198,21 @@ namespace ftk {
   int UsbEndpoint::open_device(const AdbDevice& d)
   {
 
-
-
-    i->hFile = CreateFile(d.device_path, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE,
+    _i->hFile = CreateFile(d.device_path, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE,
       0, OPEN_EXISTING, FILE_FLAG_OVERLAPPED, 0);
-    if (INVALID_HANDLE_VALUE == i->hFile)
+    if (INVALID_HANDLE_VALUE == _i->hFile)
       return -1;
 
-    if (!WinUsb_Initialize(i->hFile, &i->hInterface)) {
-      CloseHandle(i->hFile);
+    if (!WinUsb_Initialize(_i->hFile, &_i->hInterface)) {
+      CloseHandle(_i->hFile);
       return -2;
     }
 
     // we need to get the endpoint address
     USB_INTERFACE_DESCRIPTOR iface_desc;
-    if (!WinUsb_QueryInterfaceSettings(i->hInterface, 0, &iface_desc)) {
-      WinUsb_Free(i->hInterface);
-      CloseHandle(i->hFile);
+    if (!WinUsb_QueryInterfaceSettings(_i->hInterface, 0, &iface_desc)) {
+      WinUsb_Free(_i->hInterface);
+      CloseHandle(_i->hFile);
       return -3;
     }
 
@@ -223,15 +221,15 @@ namespace ftk {
     for (int ep = 0; ep < iface_desc.bNumEndpoints; ++ep)
     {
       WINUSB_PIPE_INFORMATION pipe_info;
-      if (WinUsb_QueryPipe(i->hInterface, 0, ep, &pipe_info)) {
+      if (WinUsb_QueryPipe(_i->hInterface, 0, ep, &pipe_info)) {
         if (pipe_info.PipeType == UsbdPipeTypeBulk) {
           if (0 != (pipe_info.PipeId & USB_ENDPOINT_DIRECTION_MASK)) {
-            i->read_endpoint = ep;
-            i->read_endpoint_id = pipe_info.PipeId;
+            _i->read_endpoint = ep;
+            _i->read_endpoint_id = pipe_info.PipeId;
           }
           else {
-            i->write_endpoint = ep;
-            i->write_endpoint_id = pipe_info.PipeId;
+            _i->write_endpoint = ep;
+            _i->write_endpoint_id = pipe_info.PipeId;
           }
         }
       }
@@ -240,14 +238,14 @@ namespace ftk {
 
     WINUSB_PIPE_INFORMATION pi;
     ZeroMemory(&pi, sizeof(pi));
-    WinUsb_QueryPipe(i->hInterface, 0, i->write_endpoint, &pi);
+    WinUsb_QueryPipe(_i->hInterface, 0, _i->write_endpoint, &pi);
 
     // listen for the next msg from the device.
-    i->receive_event = CreateEvent(NULL, TRUE, FALSE, NULL);
-    i->overlapped.hEvent = i->receive_event;
+    _i->receive_event = CreateEvent(NULL, TRUE, FALSE, NULL);
+    _i->overlapped.hEvent = _i->receive_event;
     //(i->incoming_msg, kAdb);
 
-    WinUsb_ReadPipe(i->hInterface, i->read_endpoint_id, i->incoming_msg, kAdbHeaderSize, &i->incoming_received_sz, &i->overlapped);
+    WinUsb_ReadPipe(_i->hInterface, _i->read_endpoint_id, _i->incoming_msg, kAdbHeaderSize, &_i->incoming_received_sz, &_i->overlapped);
 
     // Say hello to the device!
     //adb_queue_outgoing_msg(hInterface, write_endpoint_id, A_CNXN, 0x01000000L, kMaxReceiveSize, "host::Flutter ToolKit");
