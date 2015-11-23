@@ -12,7 +12,7 @@ namespace ftk {
 
   AdbEndpoint* currentAdbEndpoint() {
     static AdbEndpoint* ep = NULL;
-    if (ep)
+    if (!ep)
       ep = new AdbEndpoint();
     return ep;
   }

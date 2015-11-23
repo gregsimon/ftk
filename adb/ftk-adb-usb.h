@@ -28,6 +28,9 @@ namespace ftk {
     wchar_t device_name[kMaxFilePath];
     wchar_t device_path[kMaxFilePath];
 
+    uint8_t addr_out;
+    uint8_t addr_in;
+
     AdbDevice() {
       device_name[0] = 0;
       device_path[0] = 0;
@@ -67,7 +70,7 @@ namespace ftk {
     UsbEndpoint& operator=(const UsbEndpoint&);
     UsbEndpoint(const UsbEndpoint&);
 
-    struct UsbEndpointInternals* i;
+    struct UsbEndpointInternals* _i;
 
   };
 
