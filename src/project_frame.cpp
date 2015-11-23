@@ -2,6 +2,8 @@
 #include "wx/wxprec.h"
 #include "wx/filedlg.h"
 #include "wx/preferences.h"
+#include "wx/persist/toplevel.h"
+#include "wx/persist/treebook.h"
 
 #include "project_frame.h"
 #include "command_bar.h"
@@ -41,6 +43,10 @@ namespace ftk {
     ProjectFrame::ProjectFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     : wxFrame(NULL, wxID_ANY, title, pos, size)
   {
+    const bool sizeSet = wxPersistentRegisterAndRestore(this, "Main");
+
+    // #include "../icon.xpm"
+    // SetIcon(wxICON(icon));
 
     // Build the menus
     wxMenu *menuFile = new wxMenu;
