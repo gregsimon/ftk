@@ -55,11 +55,12 @@ namespace ftk {
       vendor_id = left.vendor_id;
       product_id = left.product_id;
       unique_id = left.unique_id;
+      addr_out = left.addr_out;
+      addr_in = left.addr_in;
       return *this;
     }
   };
   typedef std::list<AdbDevice> AdbDeviceList;
-
 
 
   class UsbEndpoint
@@ -75,9 +76,11 @@ namespace ftk {
 
     bool isOpen() const;
 
-    virtual int on_data_received(const uint8_t* buffer, uint32_t length) = 0;
+    // queue the data to be sent (async)
+    int send(const uint8_t* buffer, uint32_t length);
 
-    int send_data(const uint8_t* buffer, uint32_t length);
+    // callback when bulk data  has been received.
+    virtual int on_data_received(const uint8_t* buffer, uint32_t length) = 0;
 
     void log(const char* szFormat, ...);
 

@@ -23,15 +23,27 @@ namespace ftk {
   }
 
   struct UsbEndpointInternals {
-    UsbEndpointInternals() :hdev(0) {
+    UsbEndpointInternals(UsbEndpoint* owner) : usb(owner),
+          hdev(0), read_buffer_sz(512) {
+      read_buffer = new uint8_t[read_buffer_sz];
       libusb_init(NULL);
     }
-    ~UsbEndpointInternals() {
+    ~UsbEndpointInternals() {      
       libusb_exit(NULL);
+      delete[] read_buffer;
     }
+
+    static void BulkWriteComplete(struct libusb_transfer *xfr);
+
+    UsbEndpoint* usb;
 
     libusb_hotplug_callback_handle h_hotplug_handle;
     libusb_device_handle* hdev;
+    libusb_transfer *read_xfr;
+    libusb_transfer *write_xfr;
+    uint8_t* read_buffer;
+    uint16_t read_buffer_sz;
+
   
     uint32_t incoming_received_sz;
     uint8_t incoming_msg[kMaxReceiveSize];
@@ -41,7 +53,7 @@ namespace ftk {
   };
 
 
-  UsbEndpoint::UsbEndpoint() : _i(new UsbEndpointInternals)
+  UsbEndpoint::UsbEndpoint() : _i(new UsbEndpointInternals(this))
   {
     int rc = libusb_hotplug_register_callback(NULL, 
           libusb_hotplug_event(LIBUSB_HOTPLUG_EVENT_DEVICE_ARRIVED|LIBUSB_HOTPLUG_EVENT_DEVICE_LEFT), 
@@ -184,6 +196,8 @@ namespace ftk {
 
   int UsbEndpoint::open_device_by_id(const char* unique_id)
   {
+    int rc;
+
     for (AdbDeviceList::iterator it=_i->devices.begin(); 
       it != _i->devices.end(); ++it) {
       if (!it->unique_id.GetData().Cmp(wxString(unique_id))) {
@@ -191,12 +205,52 @@ namespace ftk {
           wxLogError("Unable to open usb device %04x %04x\n", it->vendor_id, it->product_id);
           return -2;
         }
-        wxLogDebug("Opened usb device!!");
+        wxLogDebug("Opened usb device %04x %04x", it->vendor_id, it->product_id);
+
+        // start listening for bulk transfers
+
+        _i->read_xfr = libusb_alloc_transfer(0);
+        libusb_fill_bulk_transfer(_i->read_xfr,
+            _i->hdev,
+            it->addr_in, // endpoint ID
+            _i->read_buffer,
+            _i->read_buffer_sz,
+            UsbEndpointInternals::BulkWriteComplete,
+            this,
+            5000);
+
+        if (libusb_submit_transfer(_i->read_xfr) < 0) {
+          wxLogError("Failed to submit bulk read transfer ep=%d", it->addr_in);
+        }
+
+
         return 0;
       }
     }
 
     return -1;
+  }
+
+  void UsbEndpointInternals::BulkWriteComplete(struct libusb_transfer *xfr)
+  {
+    UsbEndpointInternals* i = (UsbEndpointInternals*)xfr->user_data;
+
+    switch(xfr->status)
+    {
+      case LIBUSB_TRANSFER_COMPLETED:
+        wxLogDebug("LIBUSB_TRANSFER_COMPLETED %d bytes", xfr->actual_length);
+        i->usb->on_data_received((const uint8_t*)xfr->buffer, (uint32_t)xfr->actual_length);
+        break;
+      case LIBUSB_TRANSFER_CANCELLED:
+      case LIBUSB_TRANSFER_NO_DEVICE:
+      case LIBUSB_TRANSFER_TIMED_OUT:
+      case LIBUSB_TRANSFER_ERROR:
+      case LIBUSB_TRANSFER_STALL:
+      case LIBUSB_TRANSFER_OVERFLOW:
+        // Various type of errors here
+        wxLogError("BulkWriteComplete error, status = %d", xfr->status);
+        break;
+    }
   }
 
   int UsbEndpoint::close_device()
@@ -208,14 +262,22 @@ namespace ftk {
     return 0;
   }
 
-  int UsbEndpoint::send_data(const uint8_t* buffer, uint32_t length)
+  int UsbEndpoint::send(const uint8_t* buffer, uint32_t length)
   {
+    /*
+    Allocation: allocate a libusb_transfer
+    Filling: populate the libusb_transfer instance with information about the transfer you wish to perform
+    Submission: ask libusb to submit the transfer
+    Completion handling: examine transfer results in the libusb_transfer structure
+    Deallocation: clean up resources
+    */
+
     return 0;
   }
 
   bool UsbEndpoint::isOpen() const
   {
-    return false;
+    return (_i->hdev != NULL);
   }
 
 
