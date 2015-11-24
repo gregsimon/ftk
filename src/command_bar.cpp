@@ -40,7 +40,13 @@ namespace ftk {
   void CommandBar::OnChangeDevice(wxCommandEvent& event)
   {
     wxStringClientData* cd = (wxStringClientData*)(event.GetClientObject());
-    wxLogDebug("OnChangeDevice %s", (const char*)cd->GetData());
+    wxString unique_id = cd->GetData();
+
+    if (!unique_id.Cmp("none")) {
+      currentAdbEndpoint()->close_device();
+    } else {
+      currentAdbEndpoint()->open_device_by_id(unique_id);
+    }
   }
 
   void CommandBar::refresh_device_list()

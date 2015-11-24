@@ -36,6 +36,8 @@ namespace ftk {
     uint32_t incoming_received_sz;
     uint8_t incoming_msg[kMaxReceiveSize];
 
+    AdbDeviceList devices;
+
   };
 
 
@@ -161,6 +163,8 @@ namespace ftk {
 
     }
 
+    _i->devices = devices;
+
     return cnt;
   }
 
@@ -178,7 +182,24 @@ namespace ftk {
     return 0;
   }
 
-  int UsbEndpoint::close_device(const AdbDevice& d)
+  int UsbEndpoint::open_device_by_id(const char* unique_id)
+  {
+    for (AdbDeviceList::iterator it=_i->devices.begin(); 
+      it != _i->devices.end(); ++it) {
+      if (!it->unique_id.GetData().Cmp(wxString(unique_id))) {
+        if (!(_i->hdev = libusb_open_device_with_vid_pid(NULL, it->vendor_id, it->product_id))) {
+          wxLogError("Unable to open usb device %04x %04x\n", it->vendor_id, it->product_id);
+          return -2;
+        }
+        wxLogDebug("Opened usb device!!");
+        return 0;
+      }
+    }
+
+    return -1;
+  }
+
+  int UsbEndpoint::close_device()
   {
     if (_i->hdev) {
       libusb_close(_i->hdev);

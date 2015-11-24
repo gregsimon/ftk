@@ -52,6 +52,8 @@ namespace ftk {
     AdbDevice& operator=(const AdbDevice& left) {
       wcscpy(device_name, left.device_name);
       wcscpy(device_path, left.device_path);
+      vendor_id = left.vendor_id;
+      product_id = left.product_id;
       unique_id = left.unique_id;
       return *this;
     }
@@ -68,7 +70,8 @@ namespace ftk {
 
     int list_devices(AdbDeviceList&);
     int open_device(const AdbDevice&);
-    int close_device(const AdbDevice&);
+    int open_device_by_id(const char* unique_id);
+    int close_device();
 
     bool isOpen() const;
 
