@@ -3,6 +3,7 @@
 
 #include "wx/panel.h"
 #include "wx/choice.h"
+#include "wx/clntdata.h"
 #include "adb/ftk-adb-usb.h"
 
 class wxComboBox;
@@ -20,9 +21,12 @@ namespace ftk {
   private:
     AdbDeviceList _usb_devices;
     wxChoice* _device_picker;
+    wxStringClientData _disconnected_client_data;
 
     void refresh_device_list();
-    // wxDECLARE_EVENT_TABLE();
+
+    void OnChangeDevice(wxCommandEvent& event);
+    wxDECLARE_EVENT_TABLE();
 
   };
 

@@ -6,6 +6,7 @@
 #include <stdint.h>
 
 #include "wx/thread.h"
+#include "wx/clntdata.h"
 
 namespace ftk {
 
@@ -31,9 +32,19 @@ namespace ftk {
     uint8_t addr_out;
     uint8_t addr_in;
 
+    uint16_t vendor_id;
+    uint16_t product_id;
+    uint8_t serial_no;
+
+    wxStringClientData unique_id;
+
     AdbDevice() {
+      static uint32_t __unique_id = 1000;
+      unique_id.SetData(wxString::Format(wxT("usbdevice%d"),__unique_id++));
       device_name[0] = 0;
       device_path[0] = 0;
+      vendor_id = product_id = 0;
+      serial_no = 0;
     }
     AdbDevice(const AdbDevice& left) {
       *this = left;
@@ -41,6 +52,7 @@ namespace ftk {
     AdbDevice& operator=(const AdbDevice& left) {
       wcscpy(device_name, left.device_name);
       wcscpy(device_path, left.device_path);
+      unique_id = left.unique_id;
       return *this;
     }
   };

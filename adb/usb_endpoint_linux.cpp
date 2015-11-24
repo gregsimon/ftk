@@ -13,28 +13,49 @@ const int kMaxReceiveSize = 256 * 1024;
 
 namespace ftk {
 
+  static int hotplug_callback(struct libusb_context *ctx, struct libusb_device *dev,
+                     libusb_hotplug_event event, void *user_data) {
+    //return ((UsbEndpoint*)user_data)->hotplug_callback(ctx, dev, event);
+
+    wxLogDebug("hotplug_callback ... ");
+
+    return 0;
+  }
 
   struct UsbEndpointInternals {
-    UsbEndpointInternals() {
+    UsbEndpointInternals() :hdev(0) {
       libusb_init(NULL);
     }
     ~UsbEndpointInternals() {
       libusb_exit(NULL);
     }
+
+    libusb_hotplug_callback_handle h_hotplug_handle;
+    libusb_device_handle* hdev;
   
     uint32_t incoming_received_sz;
     uint8_t incoming_msg[kMaxReceiveSize];
 
-    uint8_t addr_out;
-    uint8_t addr_in;
   };
+
 
   UsbEndpoint::UsbEndpoint() : _i(new UsbEndpointInternals)
   {
+    int rc = libusb_hotplug_register_callback(NULL, 
+          libusb_hotplug_event(LIBUSB_HOTPLUG_EVENT_DEVICE_ARRIVED|LIBUSB_HOTPLUG_EVENT_DEVICE_LEFT), 
+          libusb_hotplug_flag(0), 
+          LIBUSB_HOTPLUG_MATCH_ANY, LIBUSB_HOTPLUG_MATCH_ANY, 
+          LIBUSB_HOTPLUG_MATCH_ANY, 
+          hotplug_callback, 
+          this, &(_i->h_hotplug_handle));
+    if (LIBUSB_SUCCESS != rc) {
+      wxLogError("Failed to register libusb hotplug event %d", rc);
+    }
   }
 
   UsbEndpoint::~UsbEndpoint()
   {
+    libusb_hotplug_deregister_callback(NULL, _i->h_hotplug_handle);
     delete _i;
   }
 
@@ -78,6 +99,9 @@ namespace ftk {
         bool might_be_device = false;
 
         new_device.addr_out = new_device.addr_in = 0;
+        new_device.vendor_id = desc.idVendor;
+        new_device.product_id = desc.idProduct;
+        new_device.serial_no = desc.iSerialNumber;
 
 
         if (desc.iProduct) {
@@ -142,12 +166,24 @@ namespace ftk {
 
   int UsbEndpoint::open_device(const AdbDevice& d)
   {
+    // locate the device based on the vid, pid, and serial #.
+    // TODO use serial #
+    if (!(_i->hdev = libusb_open_device_with_vid_pid(NULL, d.vendor_id, d.product_id))) {
+      wxLogError("Unable to open usb device %04x %04x\n", d.vendor_id, d.product_id);
+      return -1;
+    }
+
+    wxLogDebug("Opened usb device.\n");
 
     return 0;
   }
 
   int UsbEndpoint::close_device(const AdbDevice& d)
   {
+    if (_i->hdev) {
+      libusb_close(_i->hdev);
+      _i->hdev = NULL;
+    }
     return 0;
   }
 
@@ -160,5 +196,6 @@ namespace ftk {
   {
     return false;
   }
+
 
 } // namespace ftk
