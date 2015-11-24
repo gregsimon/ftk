@@ -20,7 +20,7 @@ def install_and_build_wxwidgets():
 
 
 def build_posix():
-  p = subprocess.Popen(['sudo', 'apt-get', 'install', 'libusb-1.0-0-dev', 'libgtk2.0-dev', 'libglw1-mesa', 'libglw1-mesa-dev', 'libglu1-mesa-dev'])
+  p = subprocess.Popen(['sudo', 'apt-get', 'install', 'cmake', 'libjpeg-dev', 'libusb-1.0-0-dev', 'libgtk2.0-dev', 'libglw1-mesa', 'libglw1-mesa-dev', 'libglu1-mesa-dev'])
   p.wait()
 
   make_sure_path_exists("third_party/wxWidgets/build-debug")
