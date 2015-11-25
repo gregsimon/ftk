@@ -13,15 +13,6 @@ const int kMaxReceiveSize = 256 * 1024;
 
 namespace ftk {
 
-  static int hotplug_callback(struct libusb_context *ctx, struct libusb_device *dev,
-                     libusb_hotplug_event event, void *user_data) {
-    //return ((UsbEndpoint*)user_data)->hotplug_callback(ctx, dev, event);
-
-    wxLogDebug("hotplug_callback ... ");
-
-    return 0;
-  }
-
   struct UsbEndpointInternals {
     UsbEndpointInternals(UsbEndpoint* owner) : usb(owner),
           hdev(0), read_buffer_sz(512) {
@@ -48,10 +39,19 @@ namespace ftk {
     uint32_t incoming_received_sz;
     uint8_t incoming_msg[kMaxReceiveSize];
 
+    int refresh_devices();
     AdbDeviceList devices;
 
   };
 
+  static int hotplug_callback(struct libusb_context *ctx, struct libusb_device *dev,
+                     libusb_hotplug_event event, void *user_data) {
+
+    UsbEndpointInternals* i = (UsbEndpointInternals*)user_data;
+    i->refresh_devices();
+    i->usb->on_devices_changed();
+    return 0;
+  }
 
   UsbEndpoint::UsbEndpoint() : _i(new UsbEndpointInternals(this))
   {
@@ -61,10 +61,12 @@ namespace ftk {
           LIBUSB_HOTPLUG_MATCH_ANY, LIBUSB_HOTPLUG_MATCH_ANY, 
           LIBUSB_HOTPLUG_MATCH_ANY, 
           hotplug_callback, 
-          this, &(_i->h_hotplug_handle));
+          _i, &(_i->h_hotplug_handle));
     if (LIBUSB_SUCCESS != rc) {
       wxLogError("Failed to register libusb hotplug event %d", rc);
     }
+
+    _i->refresh_devices();
   }
 
   UsbEndpoint::~UsbEndpoint()
@@ -81,16 +83,27 @@ namespace ftk {
     va_end(arg);
   }
 
+  void UsbEndpoint::poll()
+  {
+    struct timeval tvs = {0};
+    tvs.tv_sec = 1;
+    libusb_handle_events_timeout_completed(NULL, &tvs, NULL);
+  }
 
+  int UsbEndpoint::list_devices(AdbDeviceList& devices) {
+    devices = _i->devices;
+    return devices.size();
+  }
 
-  int UsbEndpoint::list_devices(AdbDeviceList& devices)
+  int UsbEndpointInternals::refresh_devices()
   {
     libusb_device **devs;
     int r, j=0, k=0;
     ssize_t cnt;
     libusb_device *dev;
     uint8_t path[8];
-   
+    
+    devices.clear();
 
     cnt = libusb_get_device_list(NULL, &devs);
     if (!cnt)
@@ -120,7 +133,7 @@ namespace ftk {
 
         if (desc.iProduct) {
           if (libusb_get_string_descriptor_ascii(h, desc.iProduct, str, 255) > 0) {
-            log("name %s  %d config(s)\n", (char*)str, (int)desc.bNumConfigurations);
+            usb->log("name %s  %d config(s)\n", (char*)str, (int)desc.bNumConfigurations);
             if (strstr((const char*)str, "Nexus"))
               might_be_device = true;
             mbstowcs(new_device.device_name, (const char*)str, kMaxFilePath);
@@ -139,7 +152,7 @@ namespace ftk {
               if (iface->iInterface) {
                 if (libusb_get_string_descriptor_ascii(h, iface->iInterface, str, 255) > 0) {
                   if (strstr((const char*)str, "ADB Interface")) {
-                    log("[%s]\n", (char*)str);
+                    usb->log("[%s]\n", (char*)str);
                     might_be_device = true;
                   }
                 }
@@ -149,7 +162,7 @@ namespace ftk {
                 // now pull the endpoints out of iface->endpoint
                 for (int e=0; e<iface->bNumEndpoints; ++e) {
                   const libusb_endpoint_descriptor& ep = iface->endpoint[e];
-                  log(" endpoint %02x addr=%02x %s bmAttributes=%02x max_size=%d\n",
+                  usb->log(" endpoint %02x addr=%02x %s bmAttributes=%02x max_size=%d\n",
                     ep.bDescriptorType,
                     ep.bEndpointAddress,
                     (ep.bEndpointAddress & 0x80) ? "IN" : "OUT",
@@ -169,13 +182,11 @@ namespace ftk {
         }
 
         if (new_device.addr_in || new_device.addr_out)
-          devices.push_back(new_device);
+          this->devices.push_back(new_device);
         libusb_close(h);
       }
 
     }
-
-    _i->devices = devices;
 
     return cnt;
   }

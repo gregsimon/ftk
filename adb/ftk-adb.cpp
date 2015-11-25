@@ -12,8 +12,10 @@ namespace ftk {
 
   AdbEndpoint* currentAdbEndpoint() {
     static AdbEndpoint* ep = NULL;
-    if (!ep)
+    if (!ep) {
       ep = new AdbEndpoint();
+      ep->Run();
+    }
     return ep;
   }
 
@@ -30,8 +32,7 @@ namespace ftk {
   {
     while (!TestDestroy())
     {
-
-      wxLogDebug("in thread...");
+      poll(); // kick the usb stack
     }
 
     return (wxThread::ExitCode)0;
@@ -39,6 +40,12 @@ namespace ftk {
 
   int AdbEndpoint::send(uint32_t cmd, uint32_t arg0, uint32_t arg1, uint8_t* buf, uint32_t len)
   {
+    return 0;
+  }
+
+  int AdbEndpoint::on_devices_changed()
+  {
+    wxLogDebug(" ... device list changed ... ");
     return 0;
   }
 

@@ -79,8 +79,11 @@ namespace ftk {
     // queue the data to be sent (async)
     int send(const uint8_t* buffer, uint32_t length);
 
+    void poll();
+
     // callback when bulk data  has been received.
     virtual int on_data_received(const uint8_t* buffer, uint32_t length) = 0;
+    virtual int on_devices_changed() = 0;
 
     void log(const char* szFormat, ...);
 
@@ -123,6 +126,7 @@ namespace ftk {
     virtual ExitCode Entry();
   private:
     int on_data_received(const uint8_t* buffer, uint32_t length);
+    int on_devices_changed();
   };
 
 } // namespace 
