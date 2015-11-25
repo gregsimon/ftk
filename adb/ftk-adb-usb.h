@@ -118,12 +118,13 @@ namespace ftk {
     AdbEndpoint();
     ~AdbEndpoint();
 
-    int send(uint32_t cmd, uint32_t arg0, uint32_t arg1, uint8_t* buf = 0, uint32_t len = 0);
+    int connect_to_device_by_id(const wxString& id);
 
-    
 
   protected:
     virtual ExitCode Entry();
+
+    int send_adb_message(uint32_t cmd, uint32_t param1, uint32_t param2, const uint8_t* data=NULL, uint32_t len=0);
   private:
     int on_data_received(const uint8_t* buffer, uint32_t length);
     int on_devices_changed();

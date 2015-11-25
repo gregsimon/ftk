@@ -45,7 +45,7 @@ namespace ftk {
     if (!unique_id.Cmp("none")) {
       currentAdbEndpoint()->close_device();
     } else {
-      currentAdbEndpoint()->open_device_by_id(unique_id);
+      currentAdbEndpoint()->connect_to_device_by_id(unique_id);
     }
   }
 
