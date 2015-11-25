@@ -31,7 +31,8 @@ namespace ftk {
     }
 
     wxProcess *process = new wxProcess(wxPROCESS_REDIRECT);
-    long pid = wxExecute(command, wxEXEC_ASYNC, process);
+    //long pid =
+      wxExecute(command, wxEXEC_ASYNC, process);
     process->Redirect();
 
     if (process)

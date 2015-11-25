@@ -43,7 +43,7 @@ namespace ftk {
     ProjectFrame::ProjectFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     : wxFrame(NULL, wxID_ANY, title, pos, size)
   {
-    const bool sizeSet = wxPersistentRegisterAndRestore(this, "Main");
+    wxPersistentRegisterAndRestore(this, "Main");
 
     // #include "../icon.xpm"
     // SetIcon(wxICON(icon));

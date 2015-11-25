@@ -16,7 +16,7 @@ namespace ftk {
   {
   public:
     ProjectFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
-    ~ProjectFrame();
+    virtual ~ProjectFrame();
 
 
   private:

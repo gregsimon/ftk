@@ -42,7 +42,7 @@ Settings::Settings(const wxString& path)
 
   currentSDK()->load(_sdk_path); // load the SDK
 
-  int ss = currentSDK()->packages().size();
+  int ss = (int)currentSDK()->packages().size();
   wxLogDebug("**** %d packages available", ss);
 }
 

@@ -3,8 +3,8 @@
 
 #include "sdk.h"
 
-#include <wx/filename.h>
-#include <wx/dir.h>
+#include "wx/filename.h"
+#include "wx/dir.h"
 #include <stack>
 
 #include "../third_party/yaml/include/yaml.h"

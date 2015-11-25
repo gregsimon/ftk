@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		780EDF4D1C05330700D6D174 /* console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 780EDF461C05330700D6D174 /* console.cpp */; };
+		780EDF511C05340D00D6D174 /* ftk-adb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 780EDF501C05340D00D6D174 /* ftk-adb.cpp */; };
+		780EDF531C05344200D6D174 /* usb_endpoint_osx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 780EDF521C05344200D6D174 /* usb_endpoint_osx.cpp */; };
 		782D3F521BDA9FFC00645D6C /* Info_cocoa.plist in Resources */ = {isa = PBXBuildFile; fileRef = 782D3F4E1BDA9FFC00645D6C /* Info_cocoa.plist */; };
 		782D3F551BDAA44300645D6C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 782D3F541BDAA44300645D6C /* Images.xcassets */; };
 		782D3F651BDE92D700645D6C /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 782D3F641BDE92D700645D6C /* libstdc++.6.0.9.tbd */; };
@@ -23,6 +26,8 @@
 		7888CE9D1BF12DF8009D7F80 /* project_frame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7888CE9B1BF12DF8009D7F80 /* project_frame.cpp */; };
 		7888CE9F1BF12E49009D7F80 /* ftk_platform_osx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7888CE9E1BF12E49009D7F80 /* ftk_platform_osx.cpp */; };
 		7888CEA21BF3D5CA009D7F80 /* command_bar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7888CEA01BF3D5CA009D7F80 /* command_bar.cpp */; };
+		789757381BFA86F900F26B11 /* project.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 789757361BFA86F900F26B11 /* project.cpp */; };
+		789757391BFA86F900F26B11 /* sdk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 789757371BFA86F900F26B11 /* sdk.cpp */; };
 		78995AD41BF4661D004D903A /* api.c in Sources */ = {isa = PBXBuildFile; fileRef = 78995ACB1BF4661D004D903A /* api.c */; };
 		78995AD51BF4661D004D903A /* dumper.c in Sources */ = {isa = PBXBuildFile; fileRef = 78995ACC1BF4661D004D903A /* dumper.c */; };
 		78995AD61BF4661D004D903A /* emitter.c in Sources */ = {isa = PBXBuildFile; fileRef = 78995ACD1BF4661D004D903A /* emitter.c */; };
@@ -35,6 +40,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		780EDF461C05330700D6D174 /* console.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = console.cpp; path = ../../../src/console.cpp; sourceTree = "<group>"; };
+		780EDF4C1C05330700D6D174 /* settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = settings.h; path = ../../../src/settings.h; sourceTree = "<group>"; };
+		780EDF4F1C05340D00D6D174 /* ftk-adb-usb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ftk-adb-usb.h"; path = "../../../adb/ftk-adb-usb.h"; sourceTree = "<group>"; };
+		780EDF501C05340D00D6D174 /* ftk-adb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "ftk-adb.cpp"; path = "../../../adb/ftk-adb.cpp"; sourceTree = "<group>"; };
+		780EDF521C05344200D6D174 /* usb_endpoint_osx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = usb_endpoint_osx.cpp; path = ../../../adb/usb_endpoint_osx.cpp; sourceTree = "<group>"; };
 		782D3EF31BDA8A6000645D6C /* Flutter ToolKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flutter ToolKit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		782D3F4E1BDA9FFC00645D6C /* Info_cocoa.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info_cocoa.plist; sourceTree = "<group>"; };
 		782D3F541BDAA44300645D6C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -55,6 +65,8 @@
 		7888CE9E1BF12E49009D7F80 /* ftk_platform_osx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ftk_platform_osx.cpp; path = ../../../src/osx/ftk_platform_osx.cpp; sourceTree = "<group>"; };
 		7888CEA01BF3D5CA009D7F80 /* command_bar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = command_bar.cpp; path = ../../../src/command_bar.cpp; sourceTree = "<group>"; };
 		7888CEA11BF3D5CA009D7F80 /* command_bar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = command_bar.h; path = ../../../src/command_bar.h; sourceTree = "<group>"; };
+		789757361BFA86F900F26B11 /* project.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = project.cpp; path = ../../../src/project.cpp; sourceTree = "<group>"; };
+		789757371BFA86F900F26B11 /* sdk.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sdk.cpp; path = ../../../src/sdk.cpp; sourceTree = "<group>"; };
 		78995ACB1BF4661D004D903A /* api.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = api.c; path = ../../../third_party/yaml/src/api.c; sourceTree = "<group>"; };
 		78995ACC1BF4661D004D903A /* dumper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = dumper.c; path = ../../../third_party/yaml/src/dumper.c; sourceTree = "<group>"; };
 		78995ACD1BF4661D004D903A /* emitter.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = emitter.c; path = ../../../third_party/yaml/src/emitter.c; sourceTree = "<group>"; };
@@ -85,6 +97,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		780EDF4E1C0533FA00D6D174 /* adb */ = {
+			isa = PBXGroup;
+			children = (
+				780EDF521C05344200D6D174 /* usb_endpoint_osx.cpp */,
+				780EDF4F1C05340D00D6D174 /* ftk-adb-usb.h */,
+				780EDF501C05340D00D6D174 /* ftk-adb.cpp */,
+			);
+			name = adb;
+			sourceTree = "<group>";
+		};
 		782D3EEA1BDA8A6000645D6C = {
 			isa = PBXGroup;
 			children = (
@@ -106,6 +128,11 @@
 		782D3EF51BDA8A6000645D6C /* Flutter ToolKit */ = {
 			isa = PBXGroup;
 			children = (
+				780EDF4E1C0533FA00D6D174 /* adb */,
+				780EDF461C05330700D6D174 /* console.cpp */,
+				780EDF4C1C05330700D6D174 /* settings.h */,
+				789757361BFA86F900F26B11 /* project.cpp */,
+				789757371BFA86F900F26B11 /* sdk.cpp */,
 				78995ADC1BF5504F004D903A /* settings.cpp */,
 				78995ACA1BF46608004D903A /* yaml */,
 				7888CEA01BF3D5CA009D7F80 /* command_bar.cpp */,
@@ -233,19 +260,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				780EDF531C05344200D6D174 /* usb_endpoint_osx.cpp in Sources */,
+				780EDF511C05340D00D6D174 /* ftk-adb.cpp in Sources */,
 				78995AD71BF4661D004D903A /* loader.c in Sources */,
 				7888CE9F1BF12E49009D7F80 /* ftk_platform_osx.cpp in Sources */,
 				7888CE8F1BEACCE6009D7F80 /* main.cpp in Sources */,
+				789757391BFA86F900F26B11 /* sdk.cpp in Sources */,
 				78995ADD1BF5504F004D903A /* settings.cpp in Sources */,
 				78995ADA1BF4661D004D903A /* scanner.c in Sources */,
 				78995AD41BF4661D004D903A /* api.c in Sources */,
 				78995AD81BF4661D004D903A /* parser.c in Sources */,
 				7888CE9D1BF12DF8009D7F80 /* project_frame.cpp in Sources */,
 				78995AD51BF4661D004D903A /* dumper.c in Sources */,
+				789757381BFA86F900F26B11 /* project.cpp in Sources */,
 				78995AD61BF4661D004D903A /* emitter.c in Sources */,
 				78995AD91BF4661D004D903A /* reader.c in Sources */,
 				78995ADB1BF4661D004D903A /* writer.c in Sources */,
 				7888CEA21BF3D5CA009D7F80 /* command_bar.cpp in Sources */,
+				780EDF4D1C05330700D6D174 /* console.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,6 +405,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(WXBUILDDIR)",
 					../../third_party/yaml/include,
+					../../,
 				);
 				INFOPLIST_FILE = "Flutter ToolKit/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -433,6 +466,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(WXBUILDDIR)",
 					../../third_party/yaml/include,
+					../../,
 				);
 				INFOPLIST_FILE = "Flutter ToolKit/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
