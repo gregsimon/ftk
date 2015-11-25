@@ -20,7 +20,7 @@ namespace ftk {
   wxEND_EVENT_TABLE()
 
   CommandBar::CommandBar(wxWindow* parent, const wxPoint& pos, const wxSize& size)
-    : wxPanel(parent, wxID_ANY, pos, size), _disconnected_client_data("none")
+    : wxPanel(parent, wxID_ANY, pos, size)
   {
     // get the list of USB devices.
     currentAdbEndpoint()->list_devices(_usb_devices);
@@ -52,7 +52,7 @@ namespace ftk {
   void CommandBar::refresh_device_list()
   {
     _device_picker->Clear();
-    _device_picker->Append("Disconnected", &_disconnected_client_data);
+    _device_picker->Append("Disconnected", new wxStringClientData("none"));
     _device_picker->SetCanFocus(false);
 
     for (AdbDeviceList::iterator it = _usb_devices.begin();

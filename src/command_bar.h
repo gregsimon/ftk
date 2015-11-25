@@ -21,7 +21,6 @@ namespace ftk {
   private:
     AdbDeviceList _usb_devices;
     wxChoice* _device_picker;
-    wxStringClientData _disconnected_client_data;
 
     void refresh_device_list();
 
