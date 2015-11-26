@@ -11,6 +11,7 @@
 namespace ftk {
 
   const int kMaxFilePath = 2048;
+  const int kMaxTransferSize = 512;
 
   // ADB constants
   const uint32_t A_SYNC = 0x434e5953;
@@ -97,10 +98,22 @@ namespace ftk {
 
 
   struct AdbMessage {
-    AdbMessage() : payload(0), payload_len(0) {}
+    AdbMessage() : payload(0), payload_len(0) {
+      payload = new uint8_t[kMaxTransferSize];
+    }
     ~AdbMessage() {
       delete[] payload;
     }
+
+    void set_payload(const uint8_t* buf, uint32_t len) {
+      if (len > kMaxTransferSize) {
+        wxLogError("adb payload %d bytes larger than %d (kMaxTransferSize)", len, kMaxTransferSize);
+        return;
+      }
+      memcpy(payload, buf, len);
+      payload_len = len;
+    }
+    void reset() { cmd = arg0 = arg1 = payload_len = 0; }
 
     uint32_t cmd;
     uint32_t arg0;
@@ -128,6 +141,10 @@ namespace ftk {
   private:
     virtual int on_data_received(const uint8_t* buffer, uint32_t length);
     virtual int on_devices_changed();
+
+    virtual int on_adb_message(const AdbMessage& msg);
+
+    AdbMessage _message;
   };
 
 } // namespace 

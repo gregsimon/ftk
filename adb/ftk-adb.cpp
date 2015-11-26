@@ -12,6 +12,19 @@ const int kMaxReceiveSizeAdb = 256 * 1024;
 
 namespace ftk {
 
+  static const char* token_name(uint32_t t) {
+    switch (t) {
+    case A_SYNC: return "A_SYNC";
+    case A_CNXN: return "A_CNXN";
+    case A_OPEN: return "A_OPEN";
+    case A_OKAY: return "A_OKAY";
+    case A_CLSE: return "A_CLSE";
+    case A_WRTE: return "A_WRTE";
+    case A_AUTH: return "A_AUTH";
+    }
+    return "UNKNOWN";
+  }
+
   AdbEndpoint* currentAdbEndpoint() {
     static AdbEndpoint* ep = NULL;
     if (!ep) {
@@ -81,35 +94,47 @@ namespace ftk {
     return 0;
   }
 
-  static const char* token_name(uint32_t t) {
-    switch (t) {
-    case A_SYNC: return "A_SYNC";
-    case A_CNXN: return "A_CNXN";
-    case A_OPEN: return "A_OPEN";
-    case A_OKAY: return "A_OKAY";
-    case A_CLSE: return "A_CLSE";
-    case A_WRTE: return "A_WRTE";
-    case A_AUTH: return "A_AUTH";
-    }
-    return "UNKNOWN";
+  int AdbEndpoint::on_adb_message(const AdbMessage& msg) 
+  {
+    wxLogDebug("IN : ADB %s %d bytes", token_name(msg.cmd), msg.payload_len);
+    return 0;
   }
+
+  
 
   int AdbEndpoint::on_data_received(const uint8_t* buf, uint32_t len)
   {
-    wxLogDebug("AdbEndpoint::on_data_received %d bytes", (int)len);
-
     bool is_header = false;
     if (kAdbHeaderSize == len) {
       // this may be a header. Or not. Let's check to make sure.
       uint32_t cmd = UnpackU32(buf,0);
       uint32_t cmd2 = UnpackU32(buf, 20);
       if ((cmd ^ 0xffffffff) == cmd2 ) {
-        wxLogDebug("YES header cmd = %s", token_name(cmd));
+        //wxLogDebug("YES header cmd = %s", token_name(cmd));
         is_header = true;
+
+        _message.cmd = cmd;
+        _message.arg0 = UnpackU32(buf,4);
+        _message.arg1 = UnpackU32(buf,8);
+        _message.payload_len = UnpackU32(buf,12);
       }
     }
 
-    
+    if (!is_header) {
+      // This should be the payload as part of the last bulk transfer.
+      // match it up and send the adb message for processing.
+      if (_message.payload_len != len) {
+        // error! we either had a buffer under/overrun in the driver
+        // or we're out of sync with the message processing. 
+        // Drop this buffer on the floor and continue.
+        wxLogError("on_data_received: payload length != header size");
+        _message.reset();
+        return -1;
+      }
+
+      on_adb_message(_message);
+      _message.reset();
+    }
 
     return 0;
   }
