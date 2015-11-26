@@ -81,8 +81,35 @@ namespace ftk {
     return 0;
   }
 
+  static const char* token_name(uint32_t t) {
+    switch (t) {
+    case A_SYNC: return "A_SYNC";
+    case A_CNXN: return "A_CNXN";
+    case A_OPEN: return "A_OPEN";
+    case A_OKAY: return "A_OKAY";
+    case A_CLSE: return "A_CLSE";
+    case A_WRTE: return "A_WRTE";
+    case A_AUTH: return "A_AUTH";
+    }
+    return "UNKNOWN";
+  }
+
   int AdbEndpoint::on_data_received(const uint8_t* buf, uint32_t len)
   {
+    wxLogDebug("AdbEndpoint::on_data_received %d bytes", (int)len);
+
+    bool is_header = false;
+    if (kAdbHeaderSize == len) {
+      // this may be a header. Or not. Let's check to make sure.
+      uint32_t cmd = UnpackU32(buf,0);
+      uint32_t cmd2 = UnpackU32(buf, 20);
+      if ((cmd ^ 0xffffffff) == cmd2 ) {
+        wxLogDebug("YES header cmd = %s", token_name(cmd));
+        is_header = true;
+      }
+    }
+
+    
 
     return 0;
   }

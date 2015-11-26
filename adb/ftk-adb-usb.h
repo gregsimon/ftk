@@ -126,8 +126,8 @@ namespace ftk {
 
     int send_adb_message(uint32_t cmd, uint32_t param1, uint32_t param2, const uint8_t* data=NULL, uint32_t len=0);
   private:
-    int on_data_received(const uint8_t* buffer, uint32_t length);
-    int on_devices_changed();
+    virtual int on_data_received(const uint8_t* buffer, uint32_t length);
+    virtual int on_devices_changed();
   };
 
 } // namespace 
