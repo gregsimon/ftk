@@ -25,6 +25,11 @@ namespace ftk {
       wxConfig* _config;
   };
 
+  Settings* globalSettings() {
+    static Settings sdk("");
+    return &sdk;
+  }
+
 }
 
 // -----------------------------------------------------------------------
@@ -38,7 +43,6 @@ public:
   virtual bool OnInit();
 
 private:
-  ftk::Settings*  _settings;
 };
 
 wxIMPLEMENT_APP(ToolkitApp);
@@ -46,12 +50,11 @@ wxIMPLEMENT_APP(ToolkitApp);
 
 ToolkitApp::ToolkitApp()
 {
-  _settings = new ftk::Settings("");
+  ftk::globalSettings();
 }
 
 ToolkitApp::~ToolkitApp()
 {
-  delete _settings;
 }
 
 bool ToolkitApp::OnInit()

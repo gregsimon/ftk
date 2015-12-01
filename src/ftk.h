@@ -6,6 +6,7 @@ namespace ftk
 {
   class Sdk* currentSDK();
   class AdbEndpoint* currentAdbEndpoint();
+  class Settings* globalSettings();
 }
 
 #endif

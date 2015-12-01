@@ -4,6 +4,7 @@
 #include <list>
 #include <wchar.h>
 #include <stdint.h>
+#include <openssl/rsa.h>
 
 #include "wx/thread.h"
 #include "wx/clntdata.h"
@@ -144,7 +145,11 @@ namespace ftk {
 
     virtual int on_adb_message(const AdbMessage& msg);
 
+    bool generate_key();
+    bool load_key();
+
     AdbMessage _message;
+    RSA* _key;
   };
 
 } // namespace 

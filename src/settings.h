@@ -19,12 +19,14 @@ namespace ftk
     const wxString& sdk_path() const { return _sdk_path;  }
     const wxString& dart_path() const { return _dart_path; }
 
+    const wxString& settings_folder() const { return _settings_folder; }
+
   private:
     wxString _settings_path;    // path to the users' setting file.
+    wxString _settings_folder;  // directory holding settings files
 
     wxString _sdk_path;         // path to the active flutter sdk
     wxString _dart_path;        // dart home (/bin would be off this)
-
 
     int load();
     int save();

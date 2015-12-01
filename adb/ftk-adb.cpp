@@ -2,7 +2,12 @@
 
 #include "wx/wxprec.h"
 
+#include <openssl/pem.h>
 
+#include "../src/ftk.h"
+#include "../src/settings.h"
+
+#include "wx/filename.h"
 #include "ftk-adb-usb.h"
 
 #define PackU32(t,o,v) t[3+o]=((v>>24)&0xff); t[2+o]=((v>>16)&0xff); t[1+o]=((v>>8)&0xff); t[0+o]=((v>>0)&0xff)
@@ -34,12 +39,19 @@ namespace ftk {
     return ep;
   }
 
-  AdbEndpoint::AdbEndpoint()
+  AdbEndpoint::AdbEndpoint() : _key(0)
   {
+    if (!load_key()) {
+      if (!generate_key()) {
+        wxLogError("GenerateKey failed.");
+      }
+    }
   }
 
   AdbEndpoint::~AdbEndpoint()
   {
+    if (_key)
+      RSA_free(_key);
   }
 
   wxThread::ExitCode AdbEndpoint::Entry()
@@ -96,7 +108,26 @@ namespace ftk {
 
   int AdbEndpoint::on_adb_message(const AdbMessage& msg) 
   {
-    wxLogDebug("IN : ADB %s %d bytes", token_name(msg.cmd), msg.payload_len);
+    wxLogDebug("IN : %s %04x %04x %d bytes",
+      token_name(msg.cmd),
+      msg.arg0, msg.arg1,
+      msg.payload_len);
+
+    switch (msg.cmd) {
+      case A_AUTH:
+        if (msg.arg0 == 1) {  // token
+          // msg.payload_len is a random token that the recipient can sign 
+          // with a private key
+          
+          // TODO : grab private keys
+
+          // else -> send back a public key type=3
+          {
+             //int RSA_generate_key_ex(RSA *rsa, int bits, BIGNUM *e, BN_GENCB *cb);
+          }
+        }
+        break;
+    }
     return 0;
   }
 
@@ -110,7 +141,6 @@ namespace ftk {
       uint32_t cmd = UnpackU32(buf,0);
       uint32_t cmd2 = UnpackU32(buf, 20);
       if ((cmd ^ 0xffffffff) == cmd2 ) {
-        //wxLogDebug("YES header cmd = %s", token_name(cmd));
         is_header = true;
 
         _message.cmd = cmd;
@@ -137,6 +167,87 @@ namespace ftk {
     }
 
     return 0;
+  }
+
+  // Attempt to load private key.
+  bool AdbEndpoint::load_key()
+  {
+    BIO* bp_public;
+    BIO* bp_private;
+
+    wxFileName key_file_name(globalSettings()->settings_folder());
+
+    key_file_name.SetName("adb_public.pem");
+    wxLogDebug(" ... [%s]", key_file_name.GetFullPath());
+    bp_public = BIO_new_file(key_file_name.GetFullPath(), "r");
+    if (!bp_public)
+      return false;
+    
+
+    key_file_name.SetName("adb_private.pem");
+    wxLogDebug(" ... [%s]", key_file_name.GetFullPath());
+    bp_private = BIO_new_file(key_file_name.GetFullPath(), "r");
+    if (!bp_private) {
+      BIO_free_all(bp_public);
+      return false;
+    }
+
+    _key = RSA_new();
+
+    _key = PEM_read_bio_RSAPublicKey(bp_public, &_key, NULL, NULL);
+    wxLogDebug("public -> %p", _key);
+
+    _key = PEM_read_bio_RSAPrivateKey(bp_private, &_key, NULL, NULL);
+    wxLogDebug("public -> %p", _key);
+    
+
+    BIO_free_all(bp_private);
+    BIO_free_all(bp_public);
+
+    return true;
+  }
+
+  bool AdbEndpoint::generate_key()
+  {
+    bool success = false;
+    BIGNUM* bne = NULL;
+    //BIO* bp_public = NULL;
+    //BIO* bp_private = NULL;
+    int bits = 2048;
+    unsigned long e = RSA_F4;
+
+    // Generate RSA key
+    bne = BN_new();
+    if (1 == BN_set_word(bne, e))
+    {
+      _key = RSA_new();
+      if (1 == RSA_generate_key_ex(_key, bits, bne, NULL))
+      {
+        success = true;
+        int ret;
+        BIO* bp;
+
+        wxLogDebug("generated RSA key");
+
+        // save it.
+        wxFileName key_file_name(globalSettings()->settings_folder());
+
+        key_file_name.SetName("adb_public.pem");
+        bp = BIO_new_file(key_file_name.GetFullPath(), "w+");
+        ret = PEM_write_bio_RSAPublicKey(bp, _key);
+        BIO_free_all(bp);
+
+        key_file_name.SetName("adb_private.pem");
+        bp = BIO_new_file(key_file_name.GetFullPath(), "w+");
+        ret = PEM_write_bio_RSAPrivateKey(bp, _key, NULL, NULL, 0, NULL, NULL);
+        BIO_free_all(bp);
+
+        
+      }
+      BN_free(bne);
+    }
+
+    return success;
   }
 
 } // namespace ftk

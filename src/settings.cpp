@@ -33,6 +33,7 @@ Settings::Settings(const wxString& path)
     }
   }
 
+  _settings_folder = settings_path.GetFullPath();
   settings_path.SetName("settings");
   _settings_path = settings_path.GetFullPath();
 
