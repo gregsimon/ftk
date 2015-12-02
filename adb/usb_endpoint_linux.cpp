@@ -29,6 +29,8 @@ namespace ftk {
 
     UsbEndpoint* usb;
 
+    uint32_t opened_vendor_id;
+    uint32_t opened_product_id;
     uint8_t open_addr_in;   // current device in/out address.
     uint8_t open_addr_out;
     libusb_hotplug_callback_handle h_hotplug_handle;
@@ -51,8 +53,11 @@ namespace ftk {
                      libusb_hotplug_event event, void *user_data) {
 
     UsbEndpointInternals* i = (UsbEndpointInternals*)user_data;
+    wxLogDebug("hotplug_callback hdev=%p dev=%p", dev, i->hdev);
+
+    // TODO : this closes the endpoint 
     i->refresh_devices();
-    i->usb->on_devices_changed();
+    //i->usb->on_devices_changed();
     return 0;
   }
 
@@ -204,6 +209,10 @@ namespace ftk {
       return -1;
     }
 
+    // in case we need to re-open.
+    _i->opened_vendor_id = d.vendor_id;
+    _i->opened_product_id = d.product_id;
+
     wxLogDebug("Opened usb device.\n");
 
     return 0;
@@ -238,8 +247,8 @@ namespace ftk {
             _i,
             5000);
 
-        if (libusb_submit_transfer(_i->read_xfr) < 0) {
-          wxLogError("Failed to submit bulk read transfer ep=%d", it->addr_in);
+        if ((rc =libusb_submit_transfer(_i->read_xfr)) < 0) {
+          wxLogError("Failed to submit bulk read transfer ep=%d rc=%d", it->addr_in, rc);
         }
 
 
@@ -253,6 +262,7 @@ namespace ftk {
   void UsbEndpointInternals::BulkReadComplete(struct libusb_transfer *xfr)
   {
     UsbEndpointInternals* i = (UsbEndpointInternals*)xfr->user_data;
+    int rc;
 
     switch(xfr->status)
     {
@@ -261,14 +271,18 @@ namespace ftk {
         i->usb->on_data_received((const uint8_t*)xfr->buffer, (uint32_t)xfr->actual_length);
         break;
       case LIBUSB_TRANSFER_CANCELLED:
+        wxLogError("BulkReadComplete error, LIBUSB_TRANSFER_CANCELLED = %d", xfr->status); break;
       case LIBUSB_TRANSFER_NO_DEVICE:
+        wxLogError("BulkReadComplete error, LIBUSB_TRANSFER_NO_DEVICE = %d", xfr->status); break;
       case LIBUSB_TRANSFER_TIMED_OUT:
-      case LIBUSB_TRANSFER_ERROR:
-      case LIBUSB_TRANSFER_STALL:
-      case LIBUSB_TRANSFER_OVERFLOW:
-        // Various type of errors here
-        wxLogError("BulkReadComplete error, status = %d", xfr->status);
+        //wxLogError("BulkReadComplete error, LIBUSB_TRANSFER_TIMED_OUT = %d", xfr->status); 
         break;
+      case LIBUSB_TRANSFER_ERROR:
+        wxLogError("BulkReadComplete error, LIBUSB_TRANSFER_ERROR = %d", xfr->status); break;
+      case LIBUSB_TRANSFER_STALL:
+        wxLogError("BulkReadComplete error, LIBUSB_TRANSFER_STALL = %d", xfr->status); break;
+      case LIBUSB_TRANSFER_OVERFLOW:
+        wxLogError("BulkReadComplete error, LIBUSB_TRANSFER_OVERFLOW = %d", xfr->status); break;
     }
 
     // re-prime the read transfer
@@ -284,8 +298,8 @@ namespace ftk {
             i,
             5000);
 
-        if (libusb_submit_transfer(i->read_xfr) < 0) {
-          wxLogError("Failed to submit bulk read transfer ep=%d", i->open_addr_in);
+        if ((rc = libusb_submit_transfer(i->read_xfr)) < 0) {
+          wxLogError("Failed to submit bulk read transfer ep=%d rc=%d", i->open_addr_in, rc);
         }
   }
 
@@ -302,11 +316,14 @@ namespace ftk {
   {
     int rc;
 
+    unsigned char* payload = new unsigned char[length];
+    memcpy(payload, buffer, length);
+
     _i->write_xfr = libusb_alloc_transfer(0);
     libusb_fill_bulk_transfer(_i->write_xfr,
             _i->hdev,
             _i->open_addr_out, // endpoint ID
-            (unsigned char*)buffer, // Grr
+            payload,
             length,
             UsbEndpointInternals::BulkWriteComplete,
             _i,
@@ -323,10 +340,13 @@ namespace ftk {
   {
     UsbEndpointInternals* i = (UsbEndpointInternals*)xfr->user_data;
 
+    delete[] xfr->buffer;
+    xfr->buffer = NULL;
+
     switch(xfr->status)
     {
       case LIBUSB_TRANSFER_COMPLETED:
-        //wxLogDebug("BulkWriteComplete %d bytes", xfr->actual_length);
+        wxLogDebug("BulkWriteComplete %d bytes", xfr->actual_length);
         break;
       case LIBUSB_TRANSFER_CANCELLED:
       case LIBUSB_TRANSFER_NO_DEVICE:

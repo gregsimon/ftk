@@ -150,6 +150,7 @@ namespace ftk {
 
     AdbMessage _message;
     RSA* _key;
+    int _auth_attempt;
   };
 
 } // namespace 

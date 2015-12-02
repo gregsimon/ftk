@@ -39,12 +39,9 @@ namespace ftk {
     return ep;
   }
 
-  AdbEndpoint::AdbEndpoint() : _key(0)
+  AdbEndpoint::AdbEndpoint() : _key(0), _auth_attempt(0)
   {
-    if (!load_key()) {
-      if (!generate_key()) {
-        wxLogError("GenerateKey failed.");
-      }
+    if (!load_key()) {      
     }
   }
 
@@ -68,11 +65,13 @@ namespace ftk {
   {
     int rc;
 
+    _auth_attempt = 0;
+
     if ((rc = open_device_by_id(unique_id)))
       return rc;
 
     // kick off the hello sequence.
-    const char* kHostName = "host::Flutter ToolKit";
+    const char* kHostName = "host:0000:Flutter ToolKit";
     send_adb_message(A_CNXN, 0x01000000L, kMaxReceiveSizeAdb, (const uint8_t *)kHostName, (uint32_t)strlen(kHostName));
 
     return 0;
@@ -118,13 +117,33 @@ namespace ftk {
         if (msg.arg0 == 1) {  // token
           // msg.payload_len is a random token that the recipient can sign 
           // with a private key
-          
-          // TODO : grab private keys
-
-          // else -> send back a public key type=3
-          {
-             //int RSA_generate_key_ex(RSA *rsa, int bits, BIGNUM *e, BN_GENCB *cb);
+          if (!_key) {
+            if (!generate_key()) {
+              wxLogError("GenerateKey failed.");
+            }
           }
+
+          // this is a key unknown to the device, let's
+          // send the (new) public key over. token type=3
+
+          if (0 == _auth_attempt) {
+            // sign with the key we have.
+            unsigned char* buf1;
+            unsigned char* buf2;
+            int len = i2d_RSAPublicKey(_key, 0);
+            buf1 = buf2 = (unsigned char *)malloc(len + 1);
+            memset(buf1, 0, len+1);
+            i2d_RSAPublicKey(_key, (unsigned char **)&buf2);
+
+            send_adb_message(A_AUTH, 3, 0, buf1, len);
+            
+            free (buf1);
+
+            _auth_attempt ++ ;
+          }
+
+
+
         }
         break;
     }
@@ -178,29 +197,25 @@ namespace ftk {
     wxFileName key_file_name(globalSettings()->settings_folder());
 
     key_file_name.SetName("adb_public.pem");
-    wxLogDebug(" ... [%s]", key_file_name.GetFullPath());
     bp_public = BIO_new_file(key_file_name.GetFullPath(), "r");
-    if (!bp_public)
+    if (!bp_public) {
+      wxLogError("Unable to open public key file %s", key_file_name.GetFullPath());
       return false;
+    }
     
 
     key_file_name.SetName("adb_private.pem");
-    wxLogDebug(" ... [%s]", key_file_name.GetFullPath());
     bp_private = BIO_new_file(key_file_name.GetFullPath(), "r");
     if (!bp_private) {
+      wxLogError("Unable to open private key file %s", key_file_name.GetFullPath());
       BIO_free_all(bp_public);
       return false;
     }
 
     _key = RSA_new();
-
-    _key = PEM_read_bio_RSAPublicKey(bp_public, &_key, NULL, NULL);
-    wxLogDebug("public -> %p", _key);
-
-    _key = PEM_read_bio_RSAPrivateKey(bp_private, &_key, NULL, NULL);
-    wxLogDebug("public -> %p", _key);
+    PEM_read_bio_RSAPublicKey(bp_public, &_key, NULL, NULL);
+    //PEM_read_bio_RSAPrivateKey(bp_private, &_key, NULL, NULL);
     
-
     BIO_free_all(bp_private);
     BIO_free_all(bp_public);
 
@@ -241,8 +256,6 @@ namespace ftk {
         bp = BIO_new_file(key_file_name.GetFullPath(), "w+");
         ret = PEM_write_bio_RSAPrivateKey(bp, _key, NULL, NULL, 0, NULL, NULL);
         BIO_free_all(bp);
-
-        
       }
       BN_free(bne);
     }
